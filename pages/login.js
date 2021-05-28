@@ -13,30 +13,40 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { useRouter } from "next/router";
+import { useCurrentUser } from "@/hooks/index";
 
 export default function Login() {
+  const router = useRouter();
+  const [errorMsg, setErrorMsg] = useState("");
+  const [user, { mutate }] = useCurrentUser();
+
+  useEffect(() => {
+    // redirect to home if user is authenticated
+    if (user) router.push("/");
+  }, [user]);
+
   const [state, setState] = useState({
     email: "",
     password: "",
   });
 
-  const onFormSubmit = async e => {
+  const onFormSubmit = async (e) => {
     e.preventDefault();
 
-    const res = await fetch('/api/auth', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    const res = await fetch("/api/auth", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(state),
     });
     if (res.status === 200) {
       const userObj = await res.json();
-      console.log('ans', userObj);
-      // mutate(userObj);
+      console.log("ans", userObj);
+      mutate(userObj);
     } else {
-      // setErrorMsg('Incorrect username or password. Try again!');
+      setErrorMsg("Incorrect username or password. Try again!");
     }
-
-  }
+  };
   return (
     <Flex
       minH={"100vh"}
@@ -58,6 +68,8 @@ export default function Login() {
           p={8}
         >
           <Stack spacing={4}>
+            {errorMsg ? <p style={{ color: "red" }}>{errorMsg}</p> : null}
+
             <FormControl id="email">
               <FormLabel>Email address</FormLabel>
               <Input
@@ -77,7 +89,6 @@ export default function Login() {
               />
             </FormControl>
             <Stack spacing={10}>
-              
               <Button
                 bg={"blue.400"}
                 color={"white"}

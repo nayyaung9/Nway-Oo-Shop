@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Flex,
@@ -14,6 +14,8 @@ import {
   useBreakpointValue,
   Icon,
 } from "@chakra-ui/react";
+import Router from "next/router";
+import { useCurrentUser } from "@/hooks/index";
 
 const avatars = [
   {
@@ -44,6 +46,13 @@ export default function Register() {
     fullname: "",
     password: "",
   });
+  const [user, { mutate }] = useCurrentUser();
+  const [errorMsg, setErrorMsg] = useState('');
+
+  useEffect(() => {
+    // redirect to home if user is authenticated
+    if (user) Router.replace("/");
+  }, [user]);
 
   const onFormSubmit = async (e) => {
     e.preventDefault();
@@ -55,10 +64,9 @@ export default function Register() {
     });
     if (res.status === 201) {
       const userObj = await res.json();
-      console.log("userObj", userObj);
+      mutate(userObj);
     } else {
-      // setErrorMsg(await res.text());
-      console.log(await res.text());
+      setErrorMsg(await res.text());
     }
   };
   return (
@@ -148,6 +156,7 @@ export default function Register() {
           spacing={{ base: 8 }}
           maxW={{ lg: "lg" }}
         >
+          {errorMsg ? <p style={{ color: "red" }}>{errorMsg}</p> : null}
           <Stack spacing={4}>
             <Heading
               color={"gray.800"}
