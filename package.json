@@ -1,0 +1,19 @@
+{
+  "name": "nweoo-snacks",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@chakra-ui/core": "^0.8.0",
+    "@emotion/core": "^11.0.0",
+    "@emotion/styled": "^11.3.0",
+    "emotion-theming": "^11.0.0",
+    "next": "10.2.3",
+    "react": "17.0.2",
+    "react-dom": "17.0.2"
+  }
+}
