@@ -230,7 +230,7 @@ export default function Register() {
                 boxShadow: "xl",
               }}
             >
-              Submit
+              Create Store
             </Button>
           </Box>
           form

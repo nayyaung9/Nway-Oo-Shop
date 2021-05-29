@@ -8,19 +8,16 @@ import {
   Image,
 } from "@chakra-ui/react";
 
-
 export default function ProductItemCard({ id, image }) {
   return (
     <Center py={12}>
       <Box
-        mr="2"
-        ml="2"
         borderWidth="1px"
         borderRadius="lg"
         style={{
           boxShadow: "0 .125rem .25rem rgba(0,0,0,.075)",
         }}
-        maxW={"330px"}
+        maxW={"370px"}
         w={"full"}
         bg={useColorModeValue("white", "gray.800")}
         rounded={"lg"}

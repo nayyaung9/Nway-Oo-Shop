@@ -9,10 +9,12 @@ export default function Home() {
       <Head>
         <title>Newoo Snacks</title>
       </Head>
-      <div style={{ background: "#f5f5f5" }}>
-        <Container maxW="container.lg">
-          <ProductHorizontalList />
-        </Container>
+      <div style={{ background: '#f5f5f5' }}>
+      <Container maxW="container.xl">
+       
+        <ProductHorizontalList />
+       
+      </Container>
       </div>
     </Layout>
   );
