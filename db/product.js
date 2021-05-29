@@ -1,10 +1,14 @@
 import { nanoid } from "nanoid";
 
 export async function fetchAllProducts(db) {
+  return db.collection("products").find().toArray();
+}
+
+export async function fetchProductById(db, productId) {
   return db
     .collection("products")
-    .find()
-    .toArray();
+    .findOne({ _id: productId })
+    .then((product) => product || null);
 }
 
 export async function createProduct(

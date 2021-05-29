@@ -34,7 +34,12 @@ export default function ProductItemCard({ product }) {
         </Box>
         <Stack p={6} pt={4}>
           <Heading as="h6" size="xs">
-            <Link href={`/p/12345/product-name`} className="linkHref">
+            <Link
+              href={`/p/${product?._id}/${product.title
+                .replace(/\s/g, "-")
+                .toLowerCase()}`}
+              className="linkHref"
+            >
               {product?.title}
             </Link>
           </Heading>
