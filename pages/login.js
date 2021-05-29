@@ -3,17 +3,17 @@ import {
   Flex,
   Box,
   FormControl,
-  FormLabel,
-  Input,
   Stack,
   Link,
-  Button,
   Heading,
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useCurrentUser } from "@/hooks/index";
+import { InputControl, SubmitButton } from "formik-chakra-ui";
+import { loginValidator } from "@/utils/form-validation";
+import { Formik } from "formik";
 
 export default function Login() {
   const router = useRouter();
@@ -25,27 +25,6 @@ export default function Login() {
     if (user) router.push("/");
   }, [user]);
 
-  const [state, setState] = useState({
-    email: "",
-    password: "",
-  });
-
-  const onFormSubmit = async (e) => {
-    e.preventDefault();
-
-    const res = await fetch("/api/auth", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(state),
-    });
-    if (res.status === 200) {
-      const userObj = await res.json();
-      console.log("ans", userObj);
-      mutate(userObj);
-    } else {
-      setErrorMsg("Incorrect username or password. Try again!");
-    }
-  };
   return (
     <Flex
       minH={"100vh"}
@@ -60,47 +39,64 @@ export default function Login() {
             to enjoy all of our cool <Link color={"blue.400"}>features</Link> ✌️
           </Text>
         </Stack>
-        <Box
-          rounded={"lg"}
-          bg={useColorModeValue("white", "gray.700")}
-          boxShadow={"lg"}
-          p={8}
+        <Formik
+          initialValues={{
+            email: "",
+            password: "",
+          }}
+          validationSchema={loginValidator}
+          onSubmit={async (values) => {
+            const res = await fetch("/api/auth", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(values),
+            });
+            if (res.status === 200) {
+              const userObj = await res.json();
+              console.log("ans", userObj);
+              mutate(userObj);
+            } else {
+              setErrorMsg("Incorrect username or password. Try again!");
+            }
+          }}
         >
-          <Stack spacing={4}>
-            {errorMsg ? <p style={{ color: "red" }}>{errorMsg}</p> : null}
+          {({ handleSubmit, values, errors }) => (
+            <Box
+              rounded={"lg"}
+              bg={useColorModeValue("white", "gray.700")}
+              boxShadow={"lg"}
+              p={8}
+              as={"form"}
+              onSubmit={handleSubmit}
+            >
+              <Stack spacing={4}>
+                {errorMsg ? <p style={{ color: "red" }}>{errorMsg}</p> : null}
 
-            <FormControl id="email">
-              <FormLabel>Email address</FormLabel>
-              <Input
-                type="email"
-                value={state.email}
-                onChange={(e) => setState({ ...state, email: e.target.value })}
-              />
-            </FormControl>
-            <FormControl id="password">
-              <FormLabel>Password</FormLabel>
-              <Input
-                type="password"
-                value={state.password}
-                onChange={(e) =>
-                  setState({ ...state, password: e.target.value })
-                }
-              />
-            </FormControl>
-            <Stack spacing={10}>
-              <Button
-                bg={"blue.400"}
-                color={"white"}
-                _hover={{
-                  bg: "blue.500",
-                }}
-                onClick={onFormSubmit}
-              >
-                Sign in
-              </Button>
-            </Stack>
-          </Stack>
-        </Box>
+                <FormControl id="email">
+                  <InputControl name="email" label="Email" type="email" />
+                </FormControl>
+                <FormControl id="password">
+                  <InputControl
+                    name="password"
+                    label="Password"
+                    type="password"
+                  />
+                </FormControl>
+                <Stack spacing={10}>
+                  <SubmitButton
+                    bg={"blue.400"}
+                    color={"white"}
+                    _hover={{
+                      bg: "blue.500",
+                    }}
+                  >
+                    Sign in
+                  </SubmitButton>
+                </Stack>
+              </Stack>
+            </Box>
+          )}
+        </Formik>
       </Stack>
     </Flex>
   );

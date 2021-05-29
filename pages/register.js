@@ -7,8 +7,6 @@ import {
   Heading,
   Text,
   Container,
-  Input,
-  Button,
   SimpleGrid,
   Avatar,
   AvatarGroup,
@@ -17,8 +15,11 @@ import {
   Divider,
   Link,
 } from "@chakra-ui/react";
+import { InputControl, SubmitButton } from "formik-chakra-ui";
 import Router from "next/router";
 import { useCurrentUser } from "@/hooks/index";
+import { registerValidator } from "@/utils/form-validation";
+import { Formik } from "formik";
 
 const avatars = [
   {
@@ -44,13 +45,6 @@ const avatars = [
 ];
 
 export default function Register() {
-  const [state, setState] = useState({
-    shopname: "",
-    email: "",
-    fullname: "",
-    password: "",
-    phoneNumber: "",
-  });
   const [user, { mutate }] = useCurrentUser();
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -59,41 +53,6 @@ export default function Register() {
     if (user) Router.replace("/");
   }, [user]);
 
-  const onFormSubmit = async (e) => {
-    e.preventDefault();
-    const { shopname, email, fullname, password, phoneNumber } = state;
-    const userPayload = {
-      email,
-      fullname,
-      password,
-    };
-
-    const res = await fetch("/api/user", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(userPayload),
-    });
-    if (res.status === 201) {
-      const userObj = await res.json();
-      const shopPayload = {
-        shopname,
-        phoneNumber,
-        shopOwnerId: userObj?.user?._id,
-      };
-
-      const createShop = await fetch("/api/shop", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(shopPayload),
-      });
-
-      if (createShop.status === 201) {
-        mutate(userObj);
-      }
-    } else {
-      setErrorMsg(await res.text());
-    }
-  };
   return (
     <Box position={"relative"}>
       <Head>
@@ -184,7 +143,6 @@ export default function Register() {
           spacing={{ base: 8 }}
           maxW={{ lg: "lg" }}
         >
-          {errorMsg ? <p style={{ color: "red" }}>{errorMsg}</p> : null}
           <Stack spacing={4}>
             <Heading
               color={"gray.800"}
@@ -204,115 +162,108 @@ export default function Register() {
               We’re looking for CDMers's Homemade Bread
             </Text>
           </Stack>
-          <Box as={"form"} mt={10}>
-            <Stack spacing={4}>
-              <Input
-                placeholder="Shop name"
-                bg={"gray.100"}
-                border={0}
-                color={"gray.500"}
-                _placeholder={{
-                  color: "gray.500",
-                }}
-                value={state.shopname}
-                onChange={(e) =>
-                  setState({ ...state, shopname: e.target.value })
-                }
-              />
-              <Input
-                placeholder="Your full name"
-                bg={"gray.100"}
-                border={0}
-                color={"gray.500"}
-                _placeholder={{
-                  color: "gray.500",
-                }}
-                value={state.fullname}
-                onChange={(e) =>
-                  setState({ ...state, fullname: e.target.value })
-                }
-              />
-              <Input
-                placeholder="Email"
-                bg={"gray.100"}
-                border={0}
-                color={"gray.500"}
-                _placeholder={{
-                  color: "gray.500",
-                }}
-                value={state.email}
-                onChange={(e) => setState({ ...state, email: e.target.value })}
-              />
-              <Input
-                placeholder="Shop Contact Number"
-                bg={"gray.100"}
-                border={0}
-                color={"gray.500"}
-                _placeholder={{
-                  color: "gray.500",
-                }}
-                value={state.phoneNumber}
-                onChange={(e) =>
-                  setState({ ...state, phoneNumber: e.target.value })
-                }
-              />
+          <Formik
+            initialValues={{
+              shopName: "",
+              fullName: "",
+              email: "",
+              password: "",
+              phoneNumber: "",
+            }}
+            validationSchema={registerValidator}
+            onSubmit={async (values) => {
+              const { shopName, email, fullName, password, phoneNumber } =
+                values;
+              const userPayload = {
+                email,
+                fullname: fullName,
+                password,
+              };
 
-              <Input
-                placeholder="Password"
-                bg={"gray.100"}
-                border={0}
-                color={"gray.500"}
-                _placeholder={{
-                  color: "gray.500",
-                }}
-                value={state.password}
-                onChange={(e) =>
-                  setState({ ...state, password: e.target.value })
-                }
-              />
+              const res = await fetch("/api/user", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(userPayload),
+              });
+              if (res.status === 201) {
+                const userObj = await res.json();
+                const shopPayload = {
+                  shopname: shopName,
+                  phoneNumber,
+                  shopOwnerId: userObj?.user?._id,
+                };
 
-              <Divider />
+                const createShop = await fetch("/api/shop", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify(shopPayload),
+                });
 
-              <Input
-                placeholder="Facebook Page Link"
-                bg={"gray.100"}
-                border={0}
-                color={"gray.500"}
-                _placeholder={{
-                  color: "gray.500",
-                }}
-                value={state.password}
-                onChange={(e) =>
-                  setState({ ...state, password: e.target.value })
+                if (createShop.status === 201) {
+                  mutate(userObj);
                 }
-              />
-            </Stack>
-            <Stack
-              direction={{ base: "column", sm: "row" }}
-              align={"start"}
-              justify={"space-between"}
-              mt="4"
-            >
-              <Link color={"blue.400"} as="a" href="/login">
-                Already member?
-              </Link>
-            </Stack>
-            <Button
-              type="button"
-              onClick={onFormSubmit}
-              fontFamily={"heading"}
-              mt={8}
-              w={"full"}
-              bgGradient="linear(to-r, red.400,pink.400)"
-              color={"white"}
-              _hover={{
-                bgGradient: "linear(to-r, red.400,pink.400)",
-                boxShadow: "xl",
-              }}
-            >
-              Create Store
-            </Button>
-          </Box>
+              } else {
+                setErrorMsg(await res.text());
+              }
+            }}
+          >
+            {({ handleSubmit, values, errors }) => (
+              <Box as={"form"} mt={10} onSubmit={handleSubmit}>
+                <Stack spacing={4}>
+                  <InputControl name="shopName" label="Shop name" />
+                  <InputControl name="fullName" label="Your full name" />
+
+                  <InputControl name="email" label="Email" type="email" />
+
+                  <InputControl
+                    name="phoneNumber"
+                    type="number"
+                    label="Shop contact number"
+                  />
+
+                  <InputControl name="fbLink" label="Facebook Link" />
+
+                  <Divider />
+
+                  <InputControl
+                    type="password"
+                    name="password"
+                    label="Password"
+                  />
+                  <InputControl
+                    type="password"
+                    name="passwordConfirmation"
+                    label="Confirm Password"
+                  />
+                </Stack>
+                <Stack
+                  direction={{ base: "column", sm: "row" }}
+                  align={"start"}
+                  justify={"space-between"}
+                  mt="4"
+                >
+                  <Link color={"blue.400"} as="a" href="/login">
+                    Already member?
+                  </Link>
+                </Stack>
+                {errorMsg ? <p style={{ color: "red" }}>{errorMsg}</p> : null}
+
+                <SubmitButton
+                  fontFamily={"heading"}
+                  mt={4}
+                  w={"full"}
+                  bgGradient="linear(to-r, red.400,pink.400)"
+                  color={"white"}
+                  _hover={{
+                    bgGradient: "linear(to-r, red.400,pink.400)",
+                    boxShadow: "xl",
+                  }}
+                >
+                  Create Store
+                </SubmitButton>
+              </Box>
+            )}
+          </Formik>
           form
         </Stack>
       </Container>
