@@ -35,7 +35,7 @@ const NavLink = ({ children }) => (
   </Link>
 );
 
-export default function Header({ isAuth }) {
+export default function Header({ isAuth, shop }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
 
@@ -94,7 +94,12 @@ export default function Header({ isAuth }) {
                   />
                 </MenuButton>
                 <MenuList>
-                  <MenuItem>Profile</MenuItem>
+                  <MenuItem
+                    as="a"
+                    href={`${shop?._id}/${shop?.shopname?.replace(/\s/g , "-").toLowerCase()}`}
+                  >
+                    Your Shop
+                  </MenuItem>
                   <MenuItem as="a" href="/product/new">
                     Create Product
                   </MenuItem>

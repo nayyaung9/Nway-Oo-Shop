@@ -8,7 +8,35 @@ body {
   height: 100%;
 }
 
-
 * {
   box-sizing: border-box;
+}
+
+.slick-arrow {
+  background-size: 6px;
+  width: 34px;
+  border-radius: 50px;
+  height: 34px;
+  margin: 0 8px;
+  background-color: #fff;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+  border: 1px solid #e4e7ea;
+  z-index: 9;
+}
+.slick-next {
+  right: -25px;
+}
+
+.slick-next {
+  background-image: url("/public/next-arrow.png");
+  color: #3a393a;
+}
+
+
+.linkHref {
+  text-decoration: none !important;
+}
+
+.linkHref:hover {
+  color: #007bff !important;
 }

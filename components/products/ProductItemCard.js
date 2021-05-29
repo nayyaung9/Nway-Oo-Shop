@@ -1,23 +1,23 @@
 import {
   Box,
-  Center,
   useColorModeValue,
   Heading,
   Text,
   Stack,
   Image,
+  Link,
 } from "@chakra-ui/react";
 
 export default function ProductItemCard({ id, image }) {
   return (
-    <Center py={12}>
+    <div style={{ padding: 8 }}>
       <Box
         borderWidth="1px"
         borderRadius="lg"
         style={{
           boxShadow: "0 .125rem .25rem rgba(0,0,0,.075)",
         }}
-        maxW={"370px"}
+        maxW="100%"
         w={"full"}
         bg={useColorModeValue("white", "gray.800")}
         rounded={"lg"}
@@ -32,23 +32,20 @@ export default function ProductItemCard({ id, image }) {
             borderTopLeftRadius="lg"
           />
         </Box>
-        <Stack p={6} pt={10} align={"center"}>
-          <Text color={"gray.500"} fontSize={"sm"} textTransform={"uppercase"}>
-            {id}
-          </Text>
-          <Heading fontSize={"2xl"} fontFamily={"body"} fontWeight={500}>
-            Nice Chair, pink
+        <Stack p={6} pt={4}>
+          <Heading as="h6" size="xs">
+            <Link href={`/p/12345/product-name`} className="linkHref">
+              Nice Chair, pink
+            </Link>
           </Heading>
+
           <Stack direction={"row"} align={"center"}>
-            <Text fontWeight={800} fontSize={"xl"}>
-              $57
-            </Text>
-            <Text textDecoration={"line-through"} color={"gray.600"}>
-              $199
+            <Text color="gray.500" fontSize="sm">
+              Vegetarian • Indian • Pure veg
             </Text>
           </Stack>
         </Stack>
       </Box>
-    </Center>
+    </div>
   );
 }

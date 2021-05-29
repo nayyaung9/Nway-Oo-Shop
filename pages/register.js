@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Head from "next/head";
 import {
   Box,
   Flex,
@@ -13,6 +14,8 @@ import {
   AvatarGroup,
   useBreakpointValue,
   Icon,
+  Divider,
+  Link,
 } from "@chakra-ui/react";
 import Router from "next/router";
 import { useCurrentUser } from "@/hooks/index";
@@ -20,34 +23,36 @@ import { useCurrentUser } from "@/hooks/index";
 const avatars = [
   {
     name: "Ryan Florence",
-    url: "https://bit.ly/ryan-florence",
+    url: "https://askbootstrap.com/preview/swiggiweb/img/popular4.png",
   },
   {
     name: "Segun Adebayo",
-    url: "https://bit.ly/sage-adebayo",
+    url: "https://askbootstrap.com/preview/swiggiweb/img/trending1.png",
   },
   {
     name: "Kent Dodds",
-    url: "https://bit.ly/kent-c-dodds",
+    url: "https://askbootstrap.com/preview/swiggiweb/img/trending2.png",
   },
   {
     name: "Prosper Otemuyiwa",
-    url: "https://bit.ly/prosper-baba",
+    url: "https://askbootstrap.com/preview/swiggiweb/img/popular1.png",
   },
   {
     name: "Christian Nwamba",
-    url: "https://bit.ly/code-beast",
+    url: "https://askbootstrap.com/preview/swiggiweb/img/popular2.png",
   },
 ];
 
 export default function Register() {
   const [state, setState] = useState({
+    shopname: "",
     email: "",
     fullname: "",
     password: "",
+    phoneNumber: "",
   });
   const [user, { mutate }] = useCurrentUser();
-  const [errorMsg, setErrorMsg] = useState('');
+  const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
     // redirect to home if user is authenticated
@@ -56,21 +61,44 @@ export default function Register() {
 
   const onFormSubmit = async (e) => {
     e.preventDefault();
+    const { shopname, email, fullname, password, phoneNumber } = state;
+    const userPayload = {
+      email,
+      fullname,
+      password,
+    };
 
     const res = await fetch("/api/user", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(state),
+      body: JSON.stringify(userPayload),
     });
     if (res.status === 201) {
       const userObj = await res.json();
-      mutate(userObj);
+      const shopPayload = {
+        shopname,
+        phoneNumber,
+        shopOwnerId: userObj?.user?._id,
+      };
+
+      const createShop = await fetch("/api/shop", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(shopPayload),
+      });
+
+      if (createShop.status === 201) {
+        mutate(userObj);
+      }
     } else {
       setErrorMsg(await res.text());
     }
   };
   return (
     <Box position={"relative"}>
+      <Head>
+        <title>Register | Nweoo Snacks</title>
+      </Head>
       <Container
         as={SimpleGrid}
         maxW={"7xl"}
@@ -83,7 +111,7 @@ export default function Register() {
             lineHeight={1.1}
             fontSize={{ base: "3xl", sm: "4xl", md: "5xl", lg: "6xl" }}
           >
-            Senior web designers{" "}
+            Our Hero CDMers's Snacks{" "}
             <Text
               as={"span"}
               bgGradient="linear(to-r, red.400,pink.400)"
@@ -91,7 +119,7 @@ export default function Register() {
             >
               &
             </Text>{" "}
-            Full-Stack Developers
+            Homemade Bread
           </Heading>
           <Stack direction={"row"} spacing={4} align={"center"}>
             <AvatarGroup>
@@ -163,7 +191,7 @@ export default function Register() {
               lineHeight={1.1}
               fontSize={{ base: "2xl", sm: "3xl", md: "4xl" }}
             >
-              Join our team
+              Create Virtual Store
               <Text
                 as={"span"}
                 bgGradient="linear(to-r, red.400,pink.400)"
@@ -173,14 +201,26 @@ export default function Register() {
               </Text>
             </Heading>
             <Text color={"gray.500"} fontSize={{ base: "sm", sm: "md" }}>
-              We’re looking for amazing engineers just like you! Become a part
-              of our rockstar engineering team and skyrocket your career!
+              We’re looking for CDMers's Homemade Bread
             </Text>
           </Stack>
           <Box as={"form"} mt={10}>
             <Stack spacing={4}>
               <Input
-                placeholder="Fullname"
+                placeholder="Shop name"
+                bg={"gray.100"}
+                border={0}
+                color={"gray.500"}
+                _placeholder={{
+                  color: "gray.500",
+                }}
+                value={state.shopname}
+                onChange={(e) =>
+                  setState({ ...state, shopname: e.target.value })
+                }
+              />
+              <Input
+                placeholder="Your full name"
                 bg={"gray.100"}
                 border={0}
                 color={"gray.500"}
@@ -204,6 +244,20 @@ export default function Register() {
                 onChange={(e) => setState({ ...state, email: e.target.value })}
               />
               <Input
+                placeholder="Shop Contact Number"
+                bg={"gray.100"}
+                border={0}
+                color={"gray.500"}
+                _placeholder={{
+                  color: "gray.500",
+                }}
+                value={state.phoneNumber}
+                onChange={(e) =>
+                  setState({ ...state, phoneNumber: e.target.value })
+                }
+              />
+
+              <Input
                 placeholder="Password"
                 bg={"gray.100"}
                 border={0}
@@ -216,6 +270,32 @@ export default function Register() {
                   setState({ ...state, password: e.target.value })
                 }
               />
+
+              <Divider />
+
+              <Input
+                placeholder="Facebook Page Link"
+                bg={"gray.100"}
+                border={0}
+                color={"gray.500"}
+                _placeholder={{
+                  color: "gray.500",
+                }}
+                value={state.password}
+                onChange={(e) =>
+                  setState({ ...state, password: e.target.value })
+                }
+              />
+            </Stack>
+            <Stack
+              direction={{ base: "column", sm: "row" }}
+              align={"start"}
+              justify={"space-between"}
+              mt="4"
+            >
+              <Link color={"blue.400"} as="a" href="/login">
+                Already member?
+              </Link>
             </Stack>
             <Button
               type="button"

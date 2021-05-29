@@ -1,15 +1,18 @@
 import React from "react";
 import Slider from "react-slick";
 import ProductItemCard from "./ProductItemCard";
+import { Heading } from "@chakra-ui/react";
 
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
   return (
-    <div
+    <button
       className={className}
-      style={{ ...style, display: "block", background: "red" }}
+      style={{ ...style }}
       onClick={onClick}
-    />
+    >
+      Next
+    </button>
   );
 }
 
@@ -18,19 +21,19 @@ function SamplePrevArrow(props) {
   return (
     <div
       className={className}
-      style={{ ...style, display: "block", background: "green" }}
+      style={{ ...style }}
       onClick={onClick}
     />
   );
 }
 
-const ProductHorizontalList = () => {
+const ProductHorizontalList = ({ title }) => {
   var settings = {
-    speed: 500,
+    speed: 700,
     infinite: true,
     slidesToShow: 3,
-    // slidesToScroll: 3,
     swipeToSlide: true,
+
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
     responsive: [
@@ -54,7 +57,6 @@ const ProductHorizontalList = () => {
         settings: {
           slidesToShow: 1,
           centerMode: true,
-
           slidesToScroll: 1,
         },
       },
@@ -73,12 +75,17 @@ const ProductHorizontalList = () => {
     "https://askbootstrap.com/preview/swiggiweb/img/popular6.png",
   ];
   return (
-    <div>
+    <React.Fragment>
+      <Heading as="h5" size="sm">
+        {title || "Products"}
+      </Heading>
       <Slider {...settings}>
         {items &&
-          items.map((item, i) => <ProductItemCard key={i} id={i + 1} image={item} />)}
+          items.map((item, i) => (
+            <ProductItemCard key={i} id={i + 1} image={item} />
+          ))}
       </Slider>
-    </div>
+    </React.Fragment>
   );
 };
 
