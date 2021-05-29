@@ -95,7 +95,9 @@ export default function Header({ isAuth }) {
                 </MenuButton>
                 <MenuList>
                   <MenuItem>Profile</MenuItem>
-                  <MenuItem>Create Product</MenuItem>
+                  <MenuItem as="a" href="/product/new">
+                    Create Product
+                  </MenuItem>
                   <MenuDivider />
                   <MenuItem onClick={onLogout}>Logout</MenuItem>
                 </MenuList>
