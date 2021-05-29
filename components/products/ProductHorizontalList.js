@@ -6,11 +6,7 @@ import { Heading } from "@chakra-ui/react";
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
   return (
-    <button
-      className={className}
-      style={{ ...style }}
-      onClick={onClick}
-    >
+    <button className={className} style={{ ...style }} onClick={onClick}>
       Next
     </button>
   );
@@ -18,16 +14,10 @@ function SampleNextArrow(props) {
 
 function SamplePrevArrow(props) {
   const { className, style, onClick } = props;
-  return (
-    <div
-      className={className}
-      style={{ ...style }}
-      onClick={onClick}
-    />
-  );
+  return <div className={className} style={{ ...style }} onClick={onClick} />;
 }
 
-const ProductHorizontalList = ({ title }) => {
+const ProductHorizontalList = ({ title, products }) => {
   var settings = {
     speed: 700,
     infinite: true,
@@ -62,27 +52,16 @@ const ProductHorizontalList = ({ title }) => {
       },
     ],
   };
-
-  var items = [
-    "https://askbootstrap.com/preview/swiggiweb/img/popular4.png",
-    "https://askbootstrap.com/preview/swiggiweb/img/trending1.png",
-    "https://askbootstrap.com/preview/swiggiweb/img/trending2.png",
-    "https://askbootstrap.com/preview/swiggiweb/img/popular1.png",
-    "https://askbootstrap.com/preview/swiggiweb/img/popular2.png",
-    "https://askbootstrap.com/preview/swiggiweb/img/popular3.png",
-    "https://askbootstrap.com/preview/swiggiweb/img/popular4.png",
-    "https://askbootstrap.com/preview/swiggiweb/img/popular5.png",
-    "https://askbootstrap.com/preview/swiggiweb/img/popular6.png",
-  ];
+  
   return (
     <React.Fragment>
       <Heading as="h5" size="sm">
         {title || "Products"}
       </Heading>
       <Slider {...settings}>
-        {items &&
-          items.map((item, i) => (
-            <ProductItemCard key={i} id={i + 1} image={item} />
+        {products &&
+          products.map((product, i) => (
+            <ProductItemCard key={i} product={product} />
           ))}
       </Slider>
     </React.Fragment>

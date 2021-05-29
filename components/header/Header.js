@@ -18,7 +18,7 @@ import {
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
 
-const Links = ["About Us", "Team"];
+const Links = ["About Us", "Delivery"];
 
 const NavLink = ({ children }) => (
   <Link
@@ -56,7 +56,11 @@ export default function Header({ isAuth, shop }) {
 
   return (
     <>
-      <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
+      <Box
+        bg="white"
+        px={4}
+        className="header-boxshadow"
+      >
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <IconButton
             size={"md"}
@@ -96,7 +100,9 @@ export default function Header({ isAuth, shop }) {
                 <MenuList>
                   <MenuItem
                     as="a"
-                    href={`${shop?._id}/${shop?.shopname?.replace(/\s/g , "-").toLowerCase()}`}
+                    href={`${shop?._id}/${shop?.shopname
+                      ?.replace(/\s/g, "-")
+                      .toLowerCase()}`}
                   >
                     Your Shop
                   </MenuItem>

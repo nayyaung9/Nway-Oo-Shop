@@ -10,6 +10,9 @@ import {
   Input,
   FormHelperText,
   Button,
+  Wrap,
+  WrapItem,
+  Image,
 } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
 import SocialInputs from "@/components/social/SocialInputs";
@@ -37,6 +40,8 @@ const CreateProduct = () => {
     content: "",
     price: 0,
   });
+  const [productImages, setProductImages] = useState([]);
+
   const [social, setSocial] = useState([
     {
       url: "",
@@ -48,8 +53,8 @@ const CreateProduct = () => {
       social,
       userId: user?._id,
       shopId: shop?._id,
+      productImages,
     };
-    console.log("payload", payload);
 
     const res = await fetch("/api/product", {
       method: "POST",
@@ -89,7 +94,26 @@ const CreateProduct = () => {
               <FormHelperText>Fully describe about your item.</FormHelperText>
             </FormControl>
 
-            <MultipleFileUpload />
+            <MultipleFileUpload
+              productImages={productImages}
+              setProductImages={setProductImages}
+            />
+
+            <Wrap>
+              {productImages &&
+                productImages.map((item, i) => {
+                  return (
+                    <WrapItem key={i}>
+                      <Image
+                        boxSize="100px"
+                        objectFit="cover"
+                        src={item}
+                        alt="Segun Adebayo"
+                      />
+                    </WrapItem>
+                  );
+                })}
+            </Wrap>
 
             <FormControl id="price" isRequired>
               <FormLabel>Price</FormLabel>

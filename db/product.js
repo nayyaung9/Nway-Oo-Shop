@@ -1,23 +1,15 @@
 import { nanoid } from "nanoid";
 
-// export async function fetchYourShopByUserId(db, userId) {
-//   return db
-//     .collection("shops")
-//     .findOne({ shopOwnerId: userId })
-//     .then((shop) => shop || null);
-// }
+export async function fetchAllProducts(db) {
+  return db
+    .collection("products")
+    .find()
+    .toArray();
+}
 
-// export async function fetchShopById(db, shopId) {
-//   return db
-//     .collection("shops")
-//     .findOne({
-//       _id: shopId,
-//     })
-//     .then((shop) => shop || null);
-// }
 export async function createProduct(
   db,
-  { title, content, price, social, userId, shopId }
+  { title, content, price, social, userId, shopId, productImages }
 ) {
   return db
     .collection("products")
@@ -29,6 +21,7 @@ export async function createProduct(
       social,
       userId,
       shopId,
+      productImages,
       createdAt: new Date(),
     })
     .then(({ ops }) => ops[0]);

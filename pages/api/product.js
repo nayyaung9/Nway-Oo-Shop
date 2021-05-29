@@ -7,8 +7,7 @@ const handler = nc();
 handler.use(all);
 
 handler.post(async (req, res) => {
-  const { title, content, price, social, userId, shopId } = req.body;
-
+  const { title, content, price, social, userId, shopId, productImages } = req.body;
   const newShop = await createProduct(req.db, {
     title,
     content,
@@ -16,6 +15,7 @@ handler.post(async (req, res) => {
     social,
     userId,
     shopId,
+    productImages
   });
   res.status(201).json({ newShop });
 });

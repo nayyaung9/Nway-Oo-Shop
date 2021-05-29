@@ -8,7 +8,7 @@ import {
   Link,
 } from "@chakra-ui/react";
 
-export default function ProductItemCard({ id, image }) {
+export default function ProductItemCard({ product }) {
   return (
     <div style={{ padding: 8 }}>
       <Box
@@ -27,7 +27,7 @@ export default function ProductItemCard({ id, image }) {
             height={230}
             width={"full"}
             objectFit={"cover"}
-            src={image}
+            src={product?.productImages[0]}
             borderTopRightRadius="lg"
             borderTopLeftRadius="lg"
           />
@@ -35,7 +35,7 @@ export default function ProductItemCard({ id, image }) {
         <Stack p={6} pt={4}>
           <Heading as="h6" size="xs">
             <Link href={`/p/12345/product-name`} className="linkHref">
-              Nice Chair, pink
+              {product?.title}
             </Link>
           </Heading>
 
