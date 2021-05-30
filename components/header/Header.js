@@ -56,18 +56,14 @@ export default function Header({ isAuth, shop }) {
 
   return (
     <>
-      <Box
-        bg="#f8b735"
-        boxShadow="sm"
-        px={4}
-        className="header-boxshadow"
-      >
+      <Box bg="#f8b735" boxShadow="sm" px={4} className="header-boxshadow">
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <IconButton
             size={"md"}
             icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
             aria-label={"Open Menu"}
             display={{ md: "none" }}
+            style={{ background: "transparent" }}
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={"center"}>

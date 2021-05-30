@@ -32,7 +32,7 @@ export default function Home() {
       </Head>
       <div style={{ background: "#f5f5f5" }}>
         <ShopList />
-        <Container maxW="container.xl" mt="8" mb="8">
+        <Container maxW="container.xl" mt="8" pb="8">
           <ProductGridList products={products} />
         </Container>
       </div>
