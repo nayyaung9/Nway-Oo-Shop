@@ -9,3 +9,11 @@
 .image-thumb img {
   border: 1px solid #ebebeb;
 }
+
+
+/* /product/new.js */
+.product-image-banner {
+  padding: 12px;
+  border: 1px dashed #aaaaaa;
+  border-radius: 4px;
+}

@@ -1,10 +1,13 @@
 import React from "react";
-import { FormControl, FormLabel, InputGroup } from "@chakra-ui/react";
-import { DownloadIcon } from "@chakra-ui/icons";
+import { FormControl, InputGroup } from "@chakra-ui/react";
 
 import { useRef } from "react";
 
-const MultipleFileUpload = ({ productImages, setProductImages }) => {
+const MultipleFileUpload = ({
+  productImages,
+  setProductImages,
+  setProductImageLoading,
+}) => {
   const inputRef = useRef();
 
   const onProductImagesUpload = async (e) => {
@@ -14,25 +17,25 @@ const MultipleFileUpload = ({ productImages, setProductImages }) => {
 
     if (inputRef.current.files[0]) {
       formData.append("productImage", inputRef.current.files[0]);
-
+      setProductImageLoading(true);
       const res = await fetch("/api/productImage", {
         method: "PATCH",
         body: formData,
       });
       if (res.status === 200) {
         const data = await res.json();
-        console.log("data", data.image);
+        setProductImageLoading(false);
         setProductImages([...productImages, data.image]);
         // setMsg({ message: 'Profile updated' });
       } else {
         // setMsg({ message: await res.text(), isError: true });
+        setProductImageLoading(false);
       }
     }
   };
 
   return (
-    <FormControl isRequired>
-      <FormLabel htmlFor="writeUpFile">Product Images</FormLabel>
+    <FormControl>
       <InputGroup>
         <label htmlFor="productImage">
           <input
@@ -40,14 +43,12 @@ const MultipleFileUpload = ({ productImages, setProductImages }) => {
             id="productImage"
             name="productImage"
             accept="image/png, image/jpeg, image/jpg"
+            disabled={productImages && productImages.length >= 5 ? true : false}
             ref={inputRef}
             onChange={onProductImagesUpload}
           />
         </label>
       </InputGroup>
-      {/* <FormErrorMessage>
-        {invalid}
-      </FormErrorMessage> */}
     </FormControl>
   );
 };

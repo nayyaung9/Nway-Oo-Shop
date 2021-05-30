@@ -13,6 +13,7 @@ import {
   Wrap,
   WrapItem,
   Image,
+  Spinner,
 } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
 import SocialInputs from "@/components/social/SocialInputs";
@@ -41,6 +42,7 @@ const CreateProduct = () => {
     price: 0,
   });
   const [productImages, setProductImages] = useState([]);
+  const [productImageLoading, setProductImageLoading] = useState(false);
 
   const [social, setSocial] = useState([
     {
@@ -79,11 +81,11 @@ const CreateProduct = () => {
             <FormControl id="email" isRequired>
               <FormLabel>Title</FormLabel>
               <Input
-                type="email"
+                type="text"
                 value={state.title}
                 onChange={(e) => setState({ ...state, title: e.target.value })}
               />
-              <FormHelperText>We'll never share your email.</FormHelperText>
+              <FormHelperText>Please describe your item name.</FormHelperText>
             </FormControl>
             <FormControl id="email" isRequired>
               <FormLabel>Item Description</FormLabel>
@@ -94,26 +96,39 @@ const CreateProduct = () => {
               <FormHelperText>Fully describe about your item.</FormHelperText>
             </FormControl>
 
-            <MultipleFileUpload
-              productImages={productImages}
-              setProductImages={setProductImages}
-            />
+            <FormLabel htmlFor="writeUpFile">Product Images</FormLabel>
 
-            <Wrap>
-              {productImages &&
-                productImages.map((item, i) => {
-                  return (
-                    <WrapItem key={i}>
-                      <Image
-                        boxSize="100px"
-                        objectFit="cover"
-                        src={item}
-                        alt="Segun Adebayo"
-                      />
-                    </WrapItem>
-                  );
-                })}
-            </Wrap>
+            <div className="product-image-banner">
+              {productImages && productImages.length >= 5 && (
+                <p style={{ color: "red" }}>
+                  Maximum product images are up to 5.
+                </p>
+              )}
+              <MultipleFileUpload
+                productImages={productImages}
+                setProductImages={setProductImages}
+                setProductImageLoading={setProductImageLoading}
+              />
+
+              <Wrap mt="4">
+                {productImages &&
+                  productImages.map((item, i) => {
+                    return (
+                      <React.Fragment>
+                        <WrapItem key={i}>
+                          <Image
+                            boxSize="100px"
+                            objectFit="cover"
+                            src={item}
+                            alt="Segun Adebayo"
+                          />
+                        </WrapItem>
+                      </React.Fragment>
+                    );
+                  })}
+                {productImageLoading && <Spinner />}
+              </Wrap>
+            </div>
 
             <FormControl id="price" isRequired>
               <FormLabel>Price</FormLabel>
