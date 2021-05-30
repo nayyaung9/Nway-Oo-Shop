@@ -1,11 +1,14 @@
 import React from "react";
-import { SimpleGrid } from "@chakra-ui/react";
+import { SimpleGrid, Heading } from "@chakra-ui/react";
 import ProductItemCard from "./ProductItemCard";
 
 const ProductGridList = ({ products }) => {
   return (
     <React.Fragment>
-      <SimpleGrid minChildWidth="250px" spacing="10px">
+      <Heading as="h4" color="gray.600" size="md" mb="3">
+        Just for you
+      </Heading>
+      <SimpleGrid columns={2} minChildWidth="250px" spacing="10px">
         {products && products.length === 0 && <div>No Products</div>}
         {Array.isArray(products) &&
           products.length > 1 &&

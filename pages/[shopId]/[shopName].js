@@ -1,6 +1,5 @@
 import React from "react";
 import Head from "next/head";
-import Layout from "@/components/layout/Layout";
 import { all } from "@/middlewares/index";
 import { fetchShopById, fetchProductsByShop } from "@/db/index";
 import {
@@ -16,6 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { useCurrentUser } from "@/hooks/index";
 import ProductGridList from "@/components/products/ProductGridList";
+import ShopLayout from "@/components/layout/ShopLayout";
 
 const ShopName = ({ data }) => {
   const [user] = useCurrentUser();
@@ -24,7 +24,7 @@ const ShopName = ({ data }) => {
   console.log("data", shop);
 
   return (
-    <Layout>
+    <ShopLayout shopName={shop ? shop.shopname : '-'}>
       <Head>
         <title>{shop ? shop.shopname : "Shop"}</title>
       </Head>
@@ -86,7 +86,7 @@ const ShopName = ({ data }) => {
           <ProductGridList products={products} />
         </Container>
       )}
-    </Layout>
+    </ShopLayout>
   );
 };
 

@@ -1,18 +1,19 @@
 import React from "react";
-import Head from 'next/head'
-import Header from "../header/Header";
+import Head from 'next/head';
+import ProductDetailHeader from "../header/ProductHeader";
 import { useCurrentUser, useOwnShop } from "@/hooks/index";
 
-const Layout = ({ children }) => {
+const ProductDetailLayout = ({ children, productName }) => {
   const [user] = useCurrentUser();
   const [shop] = useOwnShop(user?._id);
 
   return (
     <React.Fragment>
       <Head>
-        <meta name="theme-color" content="#f8b735" />
+        <meta name="theme-color" content="#ffe508" />
       </Head>
-      <Header
+      <ProductDetailHeader
+        productName={productName}
         isAuth={Object.keys(user || {}).length > 1 ? true : false}
         shop={shop}
       />
@@ -21,4 +22,4 @@ const Layout = ({ children }) => {
   );
 };
 
-export default Layout;
+export default ProductDetailLayout;

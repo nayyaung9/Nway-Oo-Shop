@@ -1,78 +1,123 @@
-import Layout from "@/components/layout/Layout";
+import ProductDetailLayout from "@/components/layout/ProductDetailLayout";
 import React from "react";
 import {
   Container,
   Box,
   Heading,
   Avatar,
-  HStack,
-  Divider,
+  Button,
   Text,
+  IconButton,
 } from "@chakra-ui/react";
 import { all } from "@/middlewares/index";
 import { fetchProductById, fetchShopById } from "@/db/index";
 import ProductDetailImageSlider from "@/components/products/ProductDetailImageSlider";
+import { numberWithCommas } from "@/utils/index";
+import { SearchIcon } from "@chakra-ui/icons";
 
 const ProductDetail = ({ data }) => {
   const product = JSON.parse(data);
-  console.log("product", product);
+
   return (
-    <Layout>
+    <ProductDetailLayout productName={product?.title}>
       {!product ? (
         <div>Loading....</div>
       ) : (
-        <Box w="100%">
+        <React.Fragment>
           <ProductDetailImageSlider images={product?.productImages} />
+          <Box w="100%" bg="#eff0f5" mb="4">
+            <Box pt={4} pb={4} bg="white">
+              <Container maxW="container.lg" mt="4">
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    marginBottom: 4,
+                  }}
+                >
+                  <Heading as="h4" size="md">
+                    Ks {numberWithCommas(product?.price)}
+                  </Heading>
+                  <IconButton
+                    style={{ background: "transparent" }}
+                    aria-label="Call Segun"
+                    size="sm"
+                    icon={<SearchIcon />}
+                  />
+                </div>
 
-          <HStack m="4">
-            <Avatar name="Ryan Florence" src="https://bit.ly/ryan-florence" />
-            <Heading as="h5" size="sm" ml="8">
-              {product?.shop?.shopname}
-            </Heading>
-          </HStack>
+                <Text fontSize="md" color="gray.700">
+                  {product?.title}
+                </Text>
+              </Container>
+            </Box>
+            <Box pt={2} pb={2} bg="white" mt="3">
+              <Container maxW="container.lg">
+                <Heading as="h6" size="sm" mb="3" color="gray.500">
+                  Description
+                </Heading>
+                <div dangerouslySetInnerHTML={{ __html: product?.content }} />
+              </Container>
+            </Box>
 
-          <Container maxW="container.lg" mt="10" mb="10">
-            <Heading as="h4" size="md" mb="4">
-              {product?.title}
-            </Heading>
-            <Box pt={4} pb={4}>
-              <Heading as="h5" size="md" mb="3">
-                Price
-              </Heading>
+            <Box pt={2} pb={2} bg="white" mt="3">
+              <Container maxW="container.lg">
+                <Heading as="h5" size="sm" mb="3" color="gray.500">
+                  Delivery
+                </Heading>
+                <Text fontSize="md" color="gray.700">
+                  {product?.delivery ? product?.delivery : "-"}
+                </Text>{" "}
+              </Container>
+            </Box>
 
-              <Text fontSize="md" color="gray.700">
-                {product?.price}
-              </Text>
+            <Box pt={2} pb={2} bg="white" mt="3">
+              <Container maxW="container.lg">
+                <Heading as="h5" size="sm" mb="3" color="gray.500">
+                  Payment
+                </Heading>
+                <Text fontSize="md" color="gray.700">
+                  {product?.payment ? product?.payment : ""}
+                </Text>{" "}
+              </Container>
             </Box>
-            <Divider />
-            <Box pt={4} pb={4}>
-              <Heading as="h5" size="md" mb="3">
-                Description
-              </Heading>
-              <div dangerouslySetInnerHTML={{ __html: product?.content }} />
-            </Box>{" "}
-            <Divider />
-            <Box pt={4} pb={4}>
-              <Heading as="h5" size="md" mb="3">
-                Delivery
-              </Heading>
-              <Text fontSize="md" color="gray.700">
-                {product?.delivery ? product?.delivery : "-"}
-              </Text>
+
+            <Box pt={4} pb={4} bg="white" mt="3">
+              <Container maxW="container.lg">
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    marginBottom: 4,
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Avatar
+                      name="Ryan Florence"
+                      src="https://bit.ly/ryan-florence"
+                    />
+                    <Text ml="3">{product?.shop?.shopname}</Text>
+                  </div>
+                  <Button colorScheme="orange" variant="outline" size="sm">
+                    Visit Store
+                  </Button>
+                </div>
+              </Container>
             </Box>
-            <Box pt={4} pb={4}>
-              <Heading as="h5" size="md" mb="3">
-                Payment
-              </Heading>
-              <Text fontSize="md" color="gray.700">
-                {product?.payment ? product?.payment : ""}
-              </Text>
-            </Box>
-            <Divider />
-          </Container>
-        </Box>
+          </Box>
+        </React.Fragment>
       )}
-    </Layout>
+    </ProductDetailLayout>
   );
 };
 

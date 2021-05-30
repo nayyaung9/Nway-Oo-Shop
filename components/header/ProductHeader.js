@@ -2,8 +2,7 @@ import {
   Box,
   Flex,
   Avatar,
-  HStack,
-  Link,
+  Heading,
   IconButton,
   Button,
   Menu,
@@ -12,30 +11,13 @@ import {
   MenuItem,
   MenuDivider,
   useDisclosure,
-  useColorModeValue,
   Stack,
+  HStack,
 } from "@chakra-ui/react";
-import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
+import { ArrowBackIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
 
-const Links = ["About Us", "Delivery"];
-
-const NavLink = ({ children }) => (
-  <Link
-    px={2}
-    py={1}
-    rounded={"md"}
-    _hover={{
-      textDecoration: "none",
-      bg: useColorModeValue("gray.200", "gray.700"),
-    }}
-    href={"#"}
-  >
-    {children}
-  </Link>
-);
-
-export default function Header({ isAuth, shop }) {
+export default function ProductDetailHeader({ isAuth, shop, productName }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
 
@@ -56,31 +38,20 @@ export default function Header({ isAuth, shop }) {
 
   return (
     <>
-      <Box
-        bg="#f8b735"
-        boxShadow="sm"
-        px={4}
-        className="header-boxshadow"
-      >
+      <Box bg="#ebbd07" boxShadow="sm" px={4} className="header-boxshadow">
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
-          <IconButton
-            size={"md"}
-            icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
-            aria-label={"Open Menu"}
-            display={{ md: "none" }}
-            onClick={isOpen ? onClose : onOpen}
-          />
-          <HStack spacing={8} alignItems={"center"}>
-            <Box>Nweoo Snacks</Box>
-            <HStack
-              as={"nav"}
-              spacing={4}
-              display={{ base: "none", md: "flex" }}
-            >
-              {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
-              ))}
-            </HStack>
+          <HStack>
+            <IconButton
+              style={{ background: "transparent", color: "#fff" }}
+              size={"md"}
+              icon={<ArrowBackIcon />}
+              aria-label={"Open Menu"}
+              display={{ md: "none" }}
+              onClick={() => router.back()}
+            />
+            <Heading as="h5" size="sm" color="white">
+              {productName}
+            </Heading>
           </HStack>
           <Flex alignItems={"center"}>
             {isAuth ? (
@@ -148,16 +119,6 @@ export default function Header({ isAuth, shop }) {
             )}
           </Flex>
         </Flex>
-
-        {isOpen ? (
-          <Box pb={4} display={{ md: "none" }}>
-            <Stack as={"nav"} spacing={4}>
-              {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
-              ))}
-            </Stack>
-          </Box>
-        ) : null}
       </Box>
     </>
   );

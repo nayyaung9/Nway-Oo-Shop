@@ -2,22 +2,22 @@
   display: flex;
   flex-wrap: nowrap;
   overflow-x: auto;
-  padding: 12px;
 }
 
-.shop-card {
+.scrolling-wrapper-flexbox > div {
   flex: 0 0 auto;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 8px;
   background-color: white;
   margin-right: 12px;
-  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
-  cursor: pointer;
   border-radius: 8px;
 }
 
 .scrolling-wrapper {
   -webkit-overflow-scrolling: touch;
+}
+
+.flex-between {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 8px;
 }
