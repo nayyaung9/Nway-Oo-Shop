@@ -1,9 +1,10 @@
+@import url('https://mmwebfonts.comquas.com/fonts/?font=pyidaungsu');
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: 'Pyidaungsu' !important;
   overflow-x: hidden;
   height: 100%;
 }

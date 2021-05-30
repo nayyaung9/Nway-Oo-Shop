@@ -1,0 +1,11 @@
+.pro-nav-thumb {
+  width: 98px;
+}
+
+.image-thumb {
+  padding: 10px;
+  cursor: pointer;
+}
+.image-thumb img {
+  border: 1px solid #ebebeb;
+}
