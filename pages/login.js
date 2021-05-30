@@ -82,6 +82,18 @@ export default function Login() {
                     type="password"
                   />
                 </FormControl>
+
+                <Stack
+                  direction={{ base: "column", sm: "row" }}
+                  align={"start"}
+                  justify={"space-between"}
+                  mt="4"
+                >
+                  <Link color={"blue.400"} as="a" href="/register">
+                    Are you a new member?
+                  </Link>
+                </Stack>
+
                 <Stack spacing={10}>
                   <SubmitButton
                     bg={"blue.400"}

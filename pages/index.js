@@ -4,6 +4,7 @@ import Layout from "../components/layout/Layout";
 import { Container } from "@chakra-ui/react";
 import { useSWRInfinite } from "swr";
 import fetcher from "@/lib/fetch";
+import ShopList from "@/components/shop/ShopList";
 
 export function useProducts() {
   return useSWRInfinite(
@@ -23,13 +24,13 @@ export default function Home() {
     ? data.reduce((acc, val) => [...acc, ...val.products], [])
     : [];
 
-
   return (
     <Layout>
       <Head>
         <title>Newoo Snacks</title>
       </Head>
       <div style={{ background: "#f5f5f5" }}>
+        <ShopList />
         <Container maxW="container.xl">
           <ProductHorizontalList products={products} />
         </Container>

@@ -8,3 +8,10 @@ export function useOwnShop(userId) {
   const shop = data?.shop;
   return [shop, { mutate }];
 }
+
+export function useShopOwner(id) {
+  const { data } = useSWR(`/api/users/${id}`, fetcher, {
+    revalidateOnFocus: false,
+  });
+  return data?.user;
+}

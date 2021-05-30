@@ -46,7 +46,6 @@ const ProductHorizontalList = ({ title, products }) => {
         breakpoint: 480,
         settings: {
           slidesToShow: 1,
-          centerMode: true,
           slidesToScroll: 1,
         },
       },

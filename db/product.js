@@ -13,7 +13,17 @@ export async function fetchProductById(db, productId) {
 
 export async function createProduct(
   db,
-  { title, content, price, social, userId, shopId, productImages }
+  {
+    title,
+    content,
+    price,
+    social,
+    userId,
+    shopId,
+    productImages,
+    delivery,
+    payment,
+  }
 ) {
   return db
     .collection("products")
@@ -26,6 +36,8 @@ export async function createProduct(
       userId,
       shopId,
       productImages,
+      delivery,
+      payment,
       createdAt: new Date(),
     })
     .then(({ ops }) => ops[0]);

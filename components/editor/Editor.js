@@ -6,17 +6,23 @@ const TextEditor = (props) => {
   return (
     <CKEditor
       editor={ClassicEditor}
-      onReady={(editor) => {
+      config={{
+        toolbar: [
+          "bold",
+          "italic",
+          "blockQuote",
+          "link",
+          "numberedList",
+          "bulletedList",
+          "mediaEmbed",
+          "|",
+          "undo",
+          "redo",
+        ],
       }}
       onChange={(event, editor) => {
         const data = editor.getData();
         props.onChange(data);
-      }}
-      onBlur={(event, editor) => {
-        console.log("Blur.", editor);
-      }}
-      onFocus={(event, editor) => {
-        console.log("Focus.", editor);
       }}
     />
   );

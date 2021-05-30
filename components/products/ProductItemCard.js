@@ -17,6 +17,7 @@ export default function ProductItemCard({ product }) {
         style={{
           boxShadow: "0 .125rem .25rem rgba(0,0,0,.075)",
         }}
+        h="full"
         maxW="100%"
         w={"full"}
         bg={useColorModeValue("white", "gray.800")}

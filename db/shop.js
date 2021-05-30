@@ -15,6 +15,15 @@ export async function fetchShopById(db, shopId) {
     })
     .then((shop) => shop || null);
 }
+
+export async function fetchAllShops(db) {
+  return db
+    .collection("shops")
+    .find()
+    .sort({ createdAt: -1 })
+    .limit(10)
+    .toArray();
+}
 export async function registerShop(db, { shopname, phoneNumber, shopOwnerId }) {
   return db
     .collection("shops")

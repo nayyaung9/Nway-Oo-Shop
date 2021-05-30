@@ -14,12 +14,16 @@ import {
   WrapItem,
   Image,
   Spinner,
+  Textarea,
 } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
 import SocialInputs from "@/components/social/SocialInputs";
 import MultipleFileUpload from "@/components/MultipleFileUpload/MultipleFileUpload";
 import { useCurrentUser, useOwnShop } from "@/hooks/index";
 import { useRouter } from "next/router";
+import { InputControl, SubmitButton, TextareaControl } from "formik-chakra-ui";
+import { productValidator } from "@/utils/form-validation";
+import { Formik } from "formik";
 
 const Editor = dynamic(() => import("@/components/editor/Editor"), {
   ssr: false,
@@ -37,9 +41,7 @@ const CreateProduct = () => {
   }, [user]);
 
   const [state, setState] = useState({
-    title: "",
     content: "",
-    price: 0,
   });
   const [productImages, setProductImages] = useState([]);
   const [productImageLoading, setProductImageLoading] = useState(false);
@@ -49,107 +51,141 @@ const CreateProduct = () => {
       url: "",
     },
   ]);
-  const onFormSubmit = async (e) => {
-    const payload = {
-      ...state,
-      social,
-      userId: user?._id,
-      shopId: shop?._id,
-      productImages,
-    };
 
-    const res = await fetch("/api/product", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-    if (res.status === 200) {
-      const userObj = await res.json();
-      console.log("ans", userObj);
-    } else {
-      // setErrorMsg("Incorrect username or password. Try again!");
-    }
-  };
   return (
     <Layout>
       <Head>
         <title>Create Product | Nweoo Snaks</title>
       </Head>
-      <Container maxW="container.lg">
-        <Box w="100%" p={4}>
-          <Stack spacing={4}>
-            <FormControl id="email" isRequired>
-              <FormLabel>Title</FormLabel>
-              <Input
-                type="text"
-                value={state.title}
-                onChange={(e) => setState({ ...state, title: e.target.value })}
-              />
-              <FormHelperText>Please describe your item name.</FormHelperText>
-            </FormControl>
-            <FormControl id="email" isRequired>
-              <FormLabel>Item Description</FormLabel>
-              <Editor
-                value={state.content}
-                onChange={(e) => setState({ ...state, content: e })}
-              />
-              <FormHelperText>Fully describe about your item.</FormHelperText>
-            </FormControl>
+      <Container maxW="container.lg" mt="4" mb="8">
+        <Formik
+          initialValues={{
+            title: "",
+            delivery: "",
+            payment: "",
+            price: "",
+          }}
+          validationSchema={productValidator}
+          onSubmit={async (values) => {
+            const payload = {
+              ...values,
+              content: state.content,
+              social,
+              userId: user?._id,
+              shopId: shop?._id,
+              productImages,
+            };
 
-            <FormLabel htmlFor="writeUpFile">Product Images</FormLabel>
+            const res = await fetch("/api/product", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload),
+            });
+            if (res.status === 201) {
+              const { newShop } = await res.json();
+              router.push(
+                `/p/${newShop?._id}/${newShop?.title
+                  .replace(/\s/g, "-")
+                  .toLowerCase()}`
+              );
+            } else {
+              // setErrorMsg("Incorrect username or password. Try again!");
+            }
+          }}
+        >
+          {({ handleSubmit, values, errors }) => (
+            <Box w="100%" as={"form"} onSubmit={handleSubmit}>
+              <Stack spacing={4}>
+                <FormControl id="email" isRequired>
+                  <InputControl name="title" label="Title" type="text" />
 
-            <div className="product-image-banner">
-              {productImages && productImages.length >= 5 && (
-                <p style={{ color: "red" }}>
-                  Maximum product images are up to 5.
-                </p>
-              )}
-              <MultipleFileUpload
-                productImages={productImages}
-                setProductImages={setProductImages}
-                setProductImageLoading={setProductImageLoading}
-              />
+                  <FormHelperText>
+                    Please describe your item name.
+                  </FormHelperText>
+                </FormControl>
+                <FormControl id="email" isRequired>
+                  <FormLabel>Item Description</FormLabel>
+                  <Editor
+                    value={state.content}
+                    onChange={(e) => setState({ ...state, content: e })}
+                  />
+                  <FormHelperText>
+                    Fully describe about your item.
+                  </FormHelperText>
+                </FormControl>
 
-              <Wrap mt="4">
-                {productImages &&
-                  productImages.map((item, i) => {
-                    return (
-                      <React.Fragment>
-                        <WrapItem key={i}>
-                          <Image
-                            boxSize="100px"
-                            objectFit="cover"
-                            src={item}
-                            alt="Segun Adebayo"
-                          />
-                        </WrapItem>
-                      </React.Fragment>
-                    );
-                  })}
-                {productImageLoading && <Spinner />}
-              </Wrap>
-            </div>
+                <FormLabel htmlFor="writeUpFile">Product Images</FormLabel>
 
-            <FormControl id="price" isRequired>
-              <FormLabel>Price</FormLabel>
-              <Input
-                type="email"
-                value={state.price}
-                onChange={(e) => setState({ ...state, price: e.target.value })}
-              />
-              <FormHelperText>Fully describe about your item.</FormHelperText>
-            </FormControl>
+                <div className="product-image-banner">
+                  {productImages && productImages.length >= 5 && (
+                    <p style={{ color: "red" }}>
+                      Maximum product images are up to 5.
+                    </p>
+                  )}
+                  <MultipleFileUpload
+                    productImages={productImages}
+                    setProductImages={setProductImages}
+                    setProductImageLoading={setProductImageLoading}
+                  />
 
-            <FormControl id="social">
-              <FormLabel>Social</FormLabel>
-              <SocialInputs social={social} setSocial={setSocial} />
-            </FormControl>
+                  <Wrap mt="4">
+                    {productImages &&
+                      productImages.map((item, i) => {
+                        return (
+                          <React.Fragment>
+                            <WrapItem key={i}>
+                              <Image
+                                boxSize="100px"
+                                objectFit="cover"
+                                src={item}
+                                alt="Segun Adebayo"
+                              />
+                            </WrapItem>
+                          </React.Fragment>
+                        );
+                      })}
+                    {productImageLoading && <Spinner />}
+                  </Wrap>
+                </div>
 
-            <Button colorScheme="teal" size="sm" mt="4" onClick={onFormSubmit}>
-              Create Product
-            </Button>
-          </Stack>
-        </Box>
+                <FormControl id="price" isRequired>
+                  <TextareaControl
+                    name="price"
+                    label="Price"
+                    textareaProps={{ placeholder: "Price" }}
+                  />
+                </FormControl>
+
+                <FormControl id="delivery" isRequired>
+                  <TextareaControl
+                    name="delivery"
+                    label="Delivery"
+                    textareaProps={{ placeholder: "Delivery for this product" }}
+                  />
+                </FormControl>
+
+                <FormControl id="payment" isRequired>
+                  <TextareaControl
+                    name="payment"
+                    label="Payment"
+                    textareaProps={{ placeholder: "Payment for this product" }}
+                  />
+                </FormControl>
+
+                <div className="product-image-banner">
+                  <FormControl id="social">
+                    <FormLabel>Social</FormLabel>
+                    <SocialInputs social={social} setSocial={setSocial} />
+                  </FormControl>
+                </div>
+
+                <SubmitButton colorScheme="teal" size="sm" mt="4">
+                  Create Product
+                </SubmitButton>
+              </Stack>
+            </Box>
+          )}
+        </Formik>
       </Container>
     </Layout>
   );
