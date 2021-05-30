@@ -32,7 +32,30 @@ export async function registerShop(db, { shopname, phoneNumber, shopOwnerId }) {
       shopname,
       phoneNumber,
       shopOwnerId,
-      createdAt: new Date(),
+      createdAt: new Date().toString(),
     })
     .then(({ ops }) => ops[0]);
+}
+
+export async function updateShop(
+  db,
+  data
+) {
+  console.log('rEQ', data)
+  const { _id, shopname, phoneNumber, shopAddress, orderSystem } = data;
+  return db
+    .collection("shops")
+    .findOneAndUpdate(
+      { _id },
+      {
+        $set: {
+          shopname,
+          phoneNumber,
+          shopAddress,
+          orderSystem,
+        },
+      },
+      { new: true }
+    )
+    .then(({ value }) => value);
 }

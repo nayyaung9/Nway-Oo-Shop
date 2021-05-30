@@ -24,7 +24,15 @@ handler.post(async (req, res) => {
     password: hashedPassword,
     fullname,
   });
-  res.status(201).json({ user });
+
+  req.logIn(user, (err) => {
+    if (err) throw err;
+    res.status(201).json({
+      user: req.user
+    });
+  });
+  
+  // res.status(201).json({ user });
 });
 
 export default handler;

@@ -4,6 +4,14 @@ export async function fetchAllProducts(db) {
   return db.collection("products").find().toArray();
 }
 
+export async function fetchProductsByShop(db, shopId) {
+  return db
+    .collection("products")
+    .find({ shopId })
+    .sort({ createdAt: -1 })
+    .limit(10)
+    .toArray();
+}
 export async function fetchProductById(db, productId) {
   return db
     .collection("products")
@@ -23,6 +31,7 @@ export async function createProduct(
     productImages,
     delivery,
     payment,
+    estimatedPrice,
   }
 ) {
   return db
@@ -38,6 +47,7 @@ export async function createProduct(
       productImages,
       delivery,
       payment,
+      estimatedPrice,
       createdAt: new Date(),
     })
     .then(({ ops }) => ops[0]);

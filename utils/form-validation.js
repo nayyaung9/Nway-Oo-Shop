@@ -54,15 +54,26 @@ export const productValidator = yup.object().shape({
     .min(3, "Product title must be at least 3 characters")
     .max(100)
     .required("Product title is required"),
+  estimatedPrice: yup.number().required("Estimated Price is required"),
   price: yup
     .string()
     .min(3, "Price must be at least 3 characters")
     .max(100)
     .required("Price is required"),
+
   delivery: yup
     .string()
     .min(3, "Delivery input must be at least 3 characters")
     .max(100)
     .required("Delivery Status is required"),
   payment: yup.string().max(100),
+});
+
+export const shopInformationValidator = yup.object().shape({
+  shopname: yup.string().max(100).required("Shop name is required"),
+  phoneNumber: yup.string().max(100).required("Phone number is required"),
+
+  shopAddress: yup.string().max(250).required("Shop address is required"),
+
+  orderSystem: yup.string().max(100),
 });

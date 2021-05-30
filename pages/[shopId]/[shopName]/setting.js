@@ -4,44 +4,20 @@ import {
   Container,
   Heading,
   FormControl,
-  FormLabel,
-  Input,
+  useToast,
   Avatar,
   Button,
-  Textarea,
-  FormErrorMessage,
-  FormHelperText,
   Divider,
+  Box,
 } from "@chakra-ui/react";
 import { all } from "@/middlewares/index";
 import { fetchShopById } from "@/db/index";
-import { useCurrentUser } from "@/hooks/index";
-import { useRouter } from "next/router";
+import { InputControl, SubmitButton, TextareaControl } from "formik-chakra-ui";
+import { shopInformationValidator } from "@/utils/form-validation";
+import { Formik } from "formik";
 
 const ShopSetting = ({ data }) => {
-  const router = useRouter();
-
-  const [shop, setShop] = useState({});
-  const [user] = useCurrentUser();
-
-  useEffect(() => {
-    const payload = {
-      ...data,
-      address: "",
-      orderSystem: "",
-    };
-    setShop(payload);
-  }, [data]);
-
-  useEffect(() => {
-    // if (shop && shop?.shopOwnerId !== user && user?._id) {
-    //   router.back();
-    // }
-
-    console.log("user", user);
-  }, [user]);
-
-  // const shop = JSON.parse(data);
+  const toast = useToast();
 
   return (
     <Layout>
@@ -67,43 +43,72 @@ const ShopSetting = ({ data }) => {
 
         <Divider />
 
-        <FormControl id="shopName" isRequired mt="4">
-          <FormLabel>Shop Name</FormLabel>
-          <Input
-            type="text"
-            value={shop?.shopname}
-            name="shopname"
-            onChange={(e) => setShop({ ...shop, shopname: e.target.value })}
-          />
-        </FormControl>
-        <FormControl id="shopContactNumbers" isRequired mt="4">
-          <FormLabel>Shop Contact Numbers</FormLabel>
-          <Input
-            type="text"
-            value={shop?.phoneNumber}
-            name="phoneNumber"
-            onChange={(e) => setShop({ ...shop, phoneNumber: e.target.value })}
-          />
-        </FormControl>
-        <FormControl id="shopAddress" isRequired mt="4">
-          <FormLabel>Shop Address</FormLabel>
-          <Textarea
-            value={shop?.address}
-            onChange={(e) => setShop({ ...shop, address: e.target.value })}
-            placeholder="ဆိုင် လိပ်စာ"
-            size="sm"
-          />
-        </FormControl>
+        <Formik
+          enableReinitialize
+          initialValues={{
+            _id: data?._id,
+            shopname: data?.shopname,
+            phoneNumber: data?.phoneNumber,
+            shopAddress: data?.shopAddress,
+            orderSystem: data?.orderSystem,
+          }}
+          validationSchema={shopInformationValidator}
+          onSubmit={async (values) => {
+            await fetch(`/api/shop/${values?._id}`, {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(values),
+            })
+              .then(async (res) => {
+                toast({
+                  title: "Shop updated.",
+                  status: "success",
+                  duration: 9000,
+                  isClosable: true,
+                  position: "top",
+                });
+              })
+              .catch((err) => {
+                toast({
+                  title: "Shop Cannot Update right now :(",
+                  status: "error",
+                  duration: 9000,
+                  isClosable: true,
+                  position: "top",
+                });
+              });
+          }}
+        >
+          {({ handleSubmit, values, errors }) => (
+            <Box as={"form"} onSubmit={handleSubmit}>
+              <FormControl id="shopName" isRequired mt="4">
+                <InputControl name="shopname" label="Shop Name" />
+              </FormControl>
+              <FormControl id="shopContactNumbers" isRequired mt="4">
+                <InputControl name="phoneNumber" label="Shop Contact Number" />
+              </FormControl>
+              <FormControl id="shopAddress" isRequired mt="4">
+                <TextareaControl
+                  name="shopAddress"
+                  label="Shop Address"
+                  textareaProps={{ placeholder: "ဆိုင် လိပ်စာ" }}
+                />
+              </FormControl>
 
-        <FormControl id="orderSystem" isRequired mt="4">
-          <FormLabel>order တင်ယူနည်း</FormLabel>
-          <Input
-            value={shop?.orderSystem}
-            onChange={(e) => setShop({ ...shop, orderSystem: e.target.value })}
-            placeholder="order တင်ယူနည်း"
-            size="sm"
-          />
-        </FormControl>
+              <FormControl id="orderSystem" isRequired mt="4">
+                <InputControl
+                  name="orderSystem"
+                  label="order တင်ယူနည်း"
+                  inputProps={{ placeholder: "order တင်ယူနည်း" }}
+                />
+              </FormControl>
+
+              <SubmitButton size="sm" mt="3">
+                Update Shop
+              </SubmitButton>
+            </Box>
+          )}
+        </Formik>
       </Container>
     </Layout>
   );
@@ -111,7 +116,6 @@ const ShopSetting = ({ data }) => {
 
 export async function getServerSideProps(context) {
   await all.run(context.req, context.res);
-  console.log(context.params);
   const shop = await fetchShopById(context.req.db, context.params.shopId);
   if (!shop) context.res.statusCode = 404;
   return { props: { data: shop } };

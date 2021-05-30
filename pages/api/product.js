@@ -7,28 +7,7 @@ const handler = nc();
 handler.use(all);
 
 handler.post(async (req, res) => {
-  const {
-    title,
-    content,
-    price,
-    social,
-    userId,
-    shopId,
-    productImages,
-    delivery,
-    payment,
-  } = req.body;
-  const newShop = await createProduct(req.db, {
-    title,
-    content,
-    price,
-    social,
-    userId,
-    shopId,
-    productImages,
-    delivery,
-    payment,
-  });
+  const newShop = await createProduct(req.db, req.body);
   res.status(201).json({ newShop });
 });
 

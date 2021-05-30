@@ -9,7 +9,6 @@ handler.use(all);
 const maxAge = 4 * 60 * 60; // 4 hours
 
 handler.get(async (req, res) => {
-  console.log('userrr', req.query)
   const user = await findUserById(req.db, req.query.userId);
   if (user) res.setHeader("cache-control", `public, max-age=${maxAge}`);
   res.send({ user });

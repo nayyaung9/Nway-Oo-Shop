@@ -25,7 +25,7 @@ export async function registerUser(db, { email, password, fullname }) {
       email,
       password,
       fullname,
-      createdAt: new Date(),
+      createdAt: new Date().toString(),
     })
     .then(({ ops }) => ops[0]);
 }

@@ -64,6 +64,7 @@ const CreateProduct = () => {
             delivery: "",
             payment: "",
             price: "",
+            estimatedPrice: 0,
           }}
           validationSchema={productValidator}
           onSubmit={async (values) => {
@@ -147,6 +148,14 @@ const CreateProduct = () => {
                     {productImageLoading && <Spinner />}
                   </Wrap>
                 </div>
+
+                <FormControl id="estimatedPrice" isRequired>
+                  <InputControl
+                    name="estimatedPrice"
+                    label="Estimated Price"
+                    inputProps={{ placeholder: "Estimated Price" }}
+                  />
+                </FormControl>
 
                 <FormControl id="price" isRequired>
                   <TextareaControl
