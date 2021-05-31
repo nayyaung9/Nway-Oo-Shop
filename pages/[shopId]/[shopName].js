@@ -8,7 +8,6 @@ import {
   Container,
   Heading,
   Avatar,
-  Button,
   SimpleGrid,
   Box,
   Text,
@@ -21,12 +20,13 @@ const ShopName = ({ data }) => {
   const [user] = useCurrentUser();
   const shop = JSON.parse(data);
   const { products } = shop;
-  console.log("data", shop);
 
   return (
     <ShopLayout shopName={shop ? shop.shopname : "-"}>
       <Head>
         <title>{shop ? shop.shopname : "Shop"}</title>
+
+        
       </Head>
       {!shop ? (
         <div>Loading...</div>

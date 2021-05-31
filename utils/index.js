@@ -14,3 +14,10 @@ export function numberWithCommas(x) {
 export function textStringToUrl(string) {
   return string.replace(/\s/g, "-").toLowerCase();
 }
+
+export function removeTags(str) {
+  if (str === null || str === "") return false;
+  else str = str.toString();
+
+  return str.replace(/(<([^>]+)>)/gi, "");
+}

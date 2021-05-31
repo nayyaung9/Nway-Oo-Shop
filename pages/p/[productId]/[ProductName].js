@@ -1,5 +1,6 @@
 import ProductDetailLayout from "@/components/layout/ProductDetailLayout";
 import React from "react";
+import Head from "next/head";
 import {
   Container,
   Box,
@@ -12,7 +13,7 @@ import {
 import { all } from "@/middlewares/index";
 import { fetchProductById, fetchShopById } from "@/db/index";
 import ProductDetailImageSlider from "@/components/products/ProductDetailImageSlider";
-import { numberWithCommas } from "@/utils/index";
+import { numberWithCommas, removeTags } from "@/utils/index";
 import { SearchIcon } from "@chakra-ui/icons";
 
 const ProductDetail = ({ data }) => {
@@ -20,6 +21,25 @@ const ProductDetail = ({ data }) => {
 
   return (
     <ProductDetailLayout productName={product?.title}>
+      <Head>
+        <title>{product ? product.title : "Nweoo Snacks"}</title>
+        <meta
+          property="og:url"
+          content={`https://nweoo-snacks.vercel.app/p/${
+            product ? product._id : ""
+          }/${product ? product.title?.replace(/\s/g, "-").toLowerCase() : ""}`}
+        />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:title"
+          content={product ? product.title : "Nweoo Snacks"}
+        />
+        <meta
+          property="og:description"
+          content={product ? removeTags(product.content) : ""}
+        />
+        <meta property="og:image" content={product?.productImages[0]} />
+      </Head>
       {!product ? (
         <div>Loading....</div>
       ) : (
@@ -38,7 +58,10 @@ const ProductDetail = ({ data }) => {
                   }}
                 >
                   <Heading as="h4" size="md">
-                    Ks {numberWithCommas(product?.estimatedPrice ? product?.estimatedPrice : 0)}
+                    Ks{" "}
+                    {numberWithCommas(
+                      product?.estimatedPrice ? product?.estimatedPrice : 0
+                    )}
                   </Heading>
                   <IconButton
                     style={{ background: "transparent" }}
