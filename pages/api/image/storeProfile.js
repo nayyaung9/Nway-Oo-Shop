@@ -35,12 +35,11 @@ handler.patch(upload.single("storeProfile"), async (req, res) => {
     return;
   }
   let storeProfile;
-  console.log('req filess', req.files);
   if (req.file) {
-    console.log('REQ FILE', req.file);
-    const image = await cloudinary.uploader.upload(req.file.path);
+    const image = await cloudinary.uploader.upload(req.file);
     storeProfile = image.secure_url;
   }
+  console.log('REQ FILE', storeProfile);
 
   const { shopId } = req.body;
 
