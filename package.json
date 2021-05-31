@@ -17,6 +17,7 @@
     "bcryptjs": "^2.4.3",
     "cloudinary": "^1.25.1",
     "connect-mongo": "3",
+    "datauri": "^3.0.0",
     "dotenv": "^10.0.0",
     "express-session": "^1.17.2",
     "formik": "^2.2.8",

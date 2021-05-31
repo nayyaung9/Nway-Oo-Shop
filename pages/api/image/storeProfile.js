@@ -3,12 +3,17 @@ import { all } from "@/middlewares/index";
 import multer from "multer";
 import { v2 as cloudinary } from "cloudinary";
 import { updateShop } from "@/db/index";
+const DatauriParser = require("datauri/parser");
+const parser = new DatauriParser();
 
 const handler = nc();
 
 const storage = multer.memoryStorage();
 
 const ALLOWED_FORMATS = ["image/jpeg", "image/png", "image/jpg"];
+
+const formatBufferTo64 = (file) =>
+  parser.format(path.extname(file.originalname).toString(), file.buffer);
 
 const upload = multer({
   storage,
@@ -35,11 +40,13 @@ handler.patch(upload.single("storeProfile"), async (req, res) => {
     return;
   }
   let storeProfile;
-  if (req.file) {
-    const image = await cloudinary.uploader.upload(req.file);
+  const file64 = formatBufferTo64(req.file);
+  console.log("file64", file64);
+
+  if (file64) {
+    const image = await cloudinary.uploader.upload(file64.content);
     storeProfile = image.secure_url;
   }
-  console.log('REQ FILE', storeProfile);
 
   const { shopId } = req.body;
 
