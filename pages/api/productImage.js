@@ -7,7 +7,7 @@ const handler = nc();
 
 const upload = multer({
   storage: multer.diskStorage({
-    destination: "./public/products",
+    destination: "./products",
     filename: (req, file, cb) => cb(null, file.originalname),
   }),
 });
