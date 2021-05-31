@@ -38,7 +38,7 @@ const ProductDetail = ({ data }) => {
                   }}
                 >
                   <Heading as="h4" size="md">
-                    Ks {numberWithCommas(product?.estimatedPrice)}
+                    Ks {numberWithCommas(product?.estimatedPrice ? product?.estimatedPrice : 0)}
                   </Heading>
                   <IconButton
                     style={{ background: "transparent" }}

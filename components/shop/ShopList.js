@@ -69,7 +69,7 @@ const ShopList = () => {
                   <Flex justify={"center"} mt={-9}>
                     <Avatar
                       size={"lg"}
-                      src={shop?.storeProfile ? shop.storeProfile : ""}
+                      src={shop?.storeProfile ? shop.storeProfile : "https://image.freepik.com/free-vector/food-set-square-logo-flat-icon_126523-252.jpg"}
                       alt={"Author"}
                       css={{
                         border: "2px solid white",
