@@ -24,7 +24,7 @@ const ShopName = ({ data }) => {
   console.log("data", shop);
 
   return (
-    <ShopLayout shopName={shop ? shop.shopname : '-'}>
+    <ShopLayout shopName={shop ? shop.shopname : "-"}>
       <Head>
         <title>{shop ? shop.shopname : "Shop"}</title>
       </Head>
@@ -37,7 +37,7 @@ const ShopName = ({ data }) => {
               <HStack>
                 <Avatar
                   name="Dan Abrahmov"
-                  src="https://scontent-sin6-1.xx.fbcdn.net/v/t1.6435-9/189153439_121118430123280_5247612425212352391_n.jpg?_nc_cat=111&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=HaTMAI-dW3kAX-mP4Io&tn=w_PW7XTSBXPHgzVJ&_nc_ht=scontent-sin6-1.xx&oh=5633e75187c1389586cf5a069da4ba28&oe=60D88C8E"
+                  src={shop?.storeProfile ? shop?.storeProfile : ""}
                 />
                 <Stack>
                   <Heading as="h4" size="md">
@@ -83,7 +83,10 @@ const ShopName = ({ data }) => {
             </Box>
           </SimpleGrid>
 
-          <ProductGridList products={products} productListName="Available Foods" />
+          <ProductGridList
+            products={products}
+            productListName="Available Foods"
+          />
         </Container>
       )}
     </ShopLayout>
