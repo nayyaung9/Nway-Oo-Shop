@@ -3,6 +3,7 @@ import { all } from "@/middlewares/index";
 import multer from "multer";
 import { v2 as cloudinary } from "cloudinary";
 import { updateShop } from "@/db/index";
+const path = require('path');
 const DatauriParser = require("datauri/parser");
 const parser = new DatauriParser();
 
