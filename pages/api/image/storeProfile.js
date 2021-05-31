@@ -42,7 +42,6 @@ handler.patch(upload.single("storeProfile"), async (req, res) => {
   }
   let storeProfile;
   const file64 = formatBufferTo64(req.file);
-  console.log("file64", file64);
 
   if (file64) {
     const image = await cloudinary.uploader.upload(file64.content);
