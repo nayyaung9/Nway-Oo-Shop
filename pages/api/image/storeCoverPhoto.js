@@ -36,11 +36,7 @@ handler.patch(upload.single("storeCoverPhoto"), async (req, res) => {
   }
   let storeCoverPhoto;
   if (req.file) {
-    const image = await cloudinary.uploader.upload(req.file.path, {
-      width: 512,
-      height: 512,
-      crop: "fill",
-    });
+    const image = await cloudinary.uploader.upload(req.file.path);
     storeCoverPhoto = image.secure_url;
   }
 
