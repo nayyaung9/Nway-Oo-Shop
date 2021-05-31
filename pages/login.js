@@ -80,6 +80,7 @@ export default function Login() {
                     name="password"
                     label="Password"
                     type="password"
+                    inputProps={{ type: "password " }}
                   />
                 </FormControl>
 

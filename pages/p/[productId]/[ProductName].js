@@ -38,7 +38,7 @@ const ProductDetail = ({ data }) => {
                   }}
                 >
                   <Heading as="h4" size="md">
-                    Ks {numberWithCommas(product?.price)}
+                    Ks {numberWithCommas(product?.estimatedPrice)}
                   </Heading>
                   <IconButton
                     style={{ background: "transparent" }}
@@ -53,12 +53,24 @@ const ProductDetail = ({ data }) => {
                 </Text>
               </Container>
             </Box>
+
             <Box pt={2} pb={2} bg="white" mt="3">
               <Container maxW="container.lg">
                 <Heading as="h6" size="sm" mb="3" color="gray.500">
                   Description
                 </Heading>
                 <div dangerouslySetInnerHTML={{ __html: product?.content }} />
+              </Container>
+            </Box>
+
+            <Box pt={2} pb={2} bg="white" mt="3">
+              <Container maxW="container.lg">
+                <Heading as="h6" size="sm" mb="3" color="gray.500">
+                  Various prices
+                </Heading>
+                <Text fontSize="md" color="gray.700">
+                  {product?.price}
+                </Text>
               </Container>
             </Box>
 

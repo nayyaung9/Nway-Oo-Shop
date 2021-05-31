@@ -68,7 +68,7 @@ const ShopName = ({ data }) => {
                 {shop?.phoneNumber ? shop?.phoneNumber : "-"}
               </Text>
 
-              {shop?.shopOwnerId === user?._id && (
+              {/* {shop?.shopOwnerId === user?._id && (
                 <Button
                   colorScheme="blue"
                   size="sm"
@@ -79,11 +79,11 @@ const ShopName = ({ data }) => {
                 >
                   Button
                 </Button>
-              )}
+              )} */}
             </Box>
           </SimpleGrid>
 
-          <ProductGridList products={products} />
+          <ProductGridList products={products} productListName="Available Foods" />
         </Container>
       )}
     </ShopLayout>

@@ -56,7 +56,7 @@ export default function Header({ isAuth, shop }) {
 
   return (
     <>
-      <Box bg="#f8b735" boxShadow="sm" px={4} className="header-boxshadow">
+      <Box boxShadow="sm" px={4} className="header-boxshadow">
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <IconButton
             size={"md"}
@@ -97,7 +97,7 @@ export default function Header({ isAuth, shop }) {
                 <MenuList>
                   <MenuItem
                     as="a"
-                    href={`${shop?._id}/${shop?.shopname
+                    href={`/${shop?._id}/${shop?.shopname
                       ?.replace(/\s/g, "-")
                       .toLowerCase()}`}
                   >
@@ -105,6 +105,14 @@ export default function Header({ isAuth, shop }) {
                   </MenuItem>
                   <MenuItem as="a" href="/product/new">
                     Create Product
+                  </MenuItem>
+                  <MenuItem
+                    as="a"
+                    href={`/${shop && shop._id}/${
+                      shop && shop.shopname.replace(/\s/g, "-").toLowerCase()
+                    }/setting`}
+                  >
+                    Store Setting
                   </MenuItem>
                   <MenuDivider />
                   <MenuItem onClick={onLogout}>Logout</MenuItem>

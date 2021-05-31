@@ -38,7 +38,7 @@ export default function ProductDetailHeader({ isAuth, shop, productName }) {
 
   return (
     <>
-      <Box bg="#ebbd07" boxShadow="sm" px={4} className="header-boxshadow">
+      <Box boxShadow="sm" px={4} className="header-boxshadow">
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <HStack>
             <IconButton

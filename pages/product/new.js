@@ -14,8 +14,9 @@ import {
   WrapItem,
   Image,
   Spinner,
-  Textarea,
 } from "@chakra-ui/react";
+import TagsInput from "react-tagsinput";
+
 import dynamic from "next/dynamic";
 import SocialInputs from "@/components/social/SocialInputs";
 import MultipleFileUpload from "@/components/MultipleFileUpload/MultipleFileUpload";
@@ -24,6 +25,7 @@ import { useRouter } from "next/router";
 import { InputControl, SubmitButton, TextareaControl } from "formik-chakra-ui";
 import { productValidator } from "@/utils/form-validation";
 import { Formik } from "formik";
+import "react-tagsinput/react-tagsinput.css";
 
 const Editor = dynamic(() => import("@/components/editor/Editor"), {
   ssr: false,
@@ -42,6 +44,7 @@ const CreateProduct = () => {
 
   const [state, setState] = useState({
     content: "",
+    tags: [],
   });
   const [productImages, setProductImages] = useState([]);
   const [productImageLoading, setProductImageLoading] = useState(false);
@@ -70,6 +73,7 @@ const CreateProduct = () => {
           onSubmit={async (values) => {
             const payload = {
               ...values,
+              tags: state.tags,
               content: state.content,
               social,
               userId: user?._id,
@@ -112,6 +116,18 @@ const CreateProduct = () => {
                   />
                   <FormHelperText>
                     Fully describe about your item.
+                  </FormHelperText>
+                </FormControl>
+
+                <FormControl id="tags">
+                  <FormLabel>Tags</FormLabel>
+                  <TagsInput
+                    value={state.tags}
+                    onChange={(tags) => setState({ ...state, tags })}
+                  />
+
+                  <FormHelperText>
+                    Describe the category your product belongs to
                   </FormHelperText>
                 </FormControl>
 

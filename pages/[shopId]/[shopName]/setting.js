@@ -1,5 +1,6 @@
 import Layout from "@/components/layout/Layout";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { useRef } from "react";
 import {
   Container,
   Heading,
@@ -9,6 +10,8 @@ import {
   Button,
   Divider,
   Box,
+  Image,
+  Spinner,
 } from "@chakra-ui/react";
 import { all } from "@/middlewares/index";
 import { fetchShopById } from "@/db/index";
@@ -18,6 +21,87 @@ import { Formik } from "formik";
 
 const ShopSetting = ({ data }) => {
   const toast = useToast();
+  const profileRef = useRef();
+  const coverPhotoRef = useRef();
+
+  const [state, setState] = useState({
+    storeProfileLoading: false,
+    storeCoverPhotoLoading: false,
+  });
+
+  const onStoreImageUpload = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+
+    if (profileRef.current.files[0]) {
+      formData.append("storeProfile", profileRef.current.files[0]);
+      formData.append("shopId", data?._id);
+
+      setState({ ...state, storeProfileLoading: true });
+      const res = await fetch("/api/image/storeProfile", {
+        method: "PATCH",
+        body: formData,
+      });
+      if (res.status === 200) {
+        setState({ ...state, storeProfileLoading: false });
+        toast({
+          title: "Shop Profile Uploaded.",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+          position: "top",
+        });
+        // setMsg({ message: 'Profile updated' });
+      } else {
+        toast({
+          title: "Shop Profile Uploaded Failed.",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          position: "top",
+        });
+        setState({ ...state, storeProfileLoading: false });
+      }
+    }
+  };
+
+  const onStoreCoverPhotoUpload = async (e) => {
+    e.preventDefault();
+    console.log("yo");
+    const formData = new FormData();
+
+    if (coverPhotoRef.current.files[0]) {
+      formData.append("storeCoverPhoto", coverPhotoRef.current.files[0]);
+      formData.append("shopId", data?._id);
+
+      setState({ ...state, storeCoverPhotoLoading: true });
+      const res = await fetch("/api/image/storeCoverPhoto", {
+        method: "PATCH",
+        body: formData,
+      });
+      if (res.status === 200) {
+        setState({ ...state, storeCoverPhotoLoading: false });
+        toast({
+          title: "Shop Cover Image Uploaded.",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+          position: "top",
+        });
+        // setMsg({ message: 'Profile updated' });
+      } else {
+        toast({
+          title: "Shop Cover Image Uploaded Failed.",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          position: "top",
+        });
+        setState({ ...state, storeCoverPhotoLoading: false });
+      }
+    }
+  };
 
   return (
     <Layout>
@@ -26,19 +110,65 @@ const ShopSetting = ({ data }) => {
           Manage Your Shop
         </Heading>
 
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            margin: "20px auto",
-          }}
-        >
-          <Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
+        <div className="action-banner-dashed">
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              marginBottom: 10,
+            }}
+          >
+            {state.storeProfileLoading ? (
+              <Spinner />
+            ) : (
+              <Avatar
+                name="Dan Abrahmov"
+                src={data?.storeProfile ? data?.storeProfile : ""}
+              />
+            )}
 
-          <Button colorScheme="teal" size="sm" variant="outline" ml="4">
-            Change Shop Profile
-          </Button>
+            <input
+              type="file"
+              name="file"
+              id="file"
+              class="inputfile"
+              style={{ display: "none" }}
+              ref={profileRef}
+              onChange={onStoreImageUpload}
+            />
+            <label htmlFor="file"> Click Here </label>
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            {state.storeCoverPhotoLoading ? (
+              <Spinner />
+            ) : (
+              <Image
+                boxSize="100px"
+                objectFit="cover"
+                src={data?.storeCoverPhoto ? data?.storeCoverPhoto : ""}
+                alt="Segun Adebayo"
+              />
+            )}
+
+            <input
+              type="file"
+              name="coverPhoto"
+              id="coverPhoto"
+              class="inputfile"
+              style={{ display: "none" }}
+              ref={coverPhotoRef}
+              onChange={onStoreCoverPhotoUpload}
+            />
+            <label htmlFor="coverPhoto"> Change Shop Cover Photo </label>
+          </div>
         </div>
 
         <Divider />
@@ -51,6 +181,7 @@ const ShopSetting = ({ data }) => {
             phoneNumber: data?.phoneNumber,
             shopAddress: data?.shopAddress,
             orderSystem: data?.orderSystem,
+            shortBio: data?.shortBiom,
           }}
           validationSchema={shopInformationValidator}
           onSubmit={async (values) => {
@@ -80,14 +211,22 @@ const ShopSetting = ({ data }) => {
           }}
         >
           {({ handleSubmit, values, errors }) => (
-            <Box as={"form"} onSubmit={handleSubmit}>
-              <FormControl id="shopName" isRequired mt="4">
+            <Box as={"form"} onSubmit={handleSubmit} mb="4">
+              <FormControl id="shopName" mt="4">
                 <InputControl name="shopname" label="Shop Name" />
               </FormControl>
-              <FormControl id="shopContactNumbers" isRequired mt="4">
+              <FormControl id="shopContactNumbers" mt="4">
                 <InputControl name="phoneNumber" label="Shop Contact Number" />
               </FormControl>
-              <FormControl id="shopAddress" isRequired mt="4">
+
+              <FormControl id="shortBio" mt="4">
+                <TextareaControl
+                  name="shortBio"
+                  label="Short Bio about your shop"
+                  textareaProps={{ placeholder: "shortBio" }}
+                />
+              </FormControl>
+              <FormControl id="shopAddress" mt="4">
                 <TextareaControl
                   name="shopAddress"
                   label="Shop Address"
@@ -95,7 +234,7 @@ const ShopSetting = ({ data }) => {
                 />
               </FormControl>
 
-              <FormControl id="orderSystem" isRequired mt="4">
+              <FormControl id="orderSystem" mt="4">
                 <InputControl
                   name="orderSystem"
                   label="order တင်ယူနည်း"

@@ -11,7 +11,8 @@ const Layout = ({ children }) => {
   return (
     <React.Fragment>
       <Head>
-        <meta name="theme-color" content="#f8b735" />
+        <meta name="theme-color" content="#fdc830" />
+        {/* <meta name="theme-color" content="hsla(0, 50%, 50%, 1)" /> */}
       </Head>
       <Header
         isAuth={Object.keys(user || {}).length > 1 ? true : false}

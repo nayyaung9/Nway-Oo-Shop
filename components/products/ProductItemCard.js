@@ -10,6 +10,14 @@ import {
 import { capFirstWordFromString, numberWithCommas } from "@/utils/index";
 
 export default function ProductItemCard({ product }) {
+  const renderProductTags = (tags) => {
+    return (
+      Array.isArray(tags) &&
+      tags.map((tag, i) => {
+        return `${tag} • `;
+      })
+    );
+  };
   return (
     <Box
       h="full"
@@ -24,7 +32,9 @@ export default function ProductItemCard({ product }) {
           width={"full"}
           objectFit={"cover"}
           src={product?.productImages[0]}
-          borderRadius="md"
+          // borderRadius="md"
+          borderTopLeftRadius="md"
+          borderTopRightRadius="md"
         />
       </Box>
       <Stack p={2}>
@@ -41,7 +51,7 @@ export default function ProductItemCard({ product }) {
 
         <Stack direction={"row"} align={"center"}>
           <Text color="gray.500" fontSize="sm">
-            Vegetarian • Indian • Pure veg
+            {product?.tags ? renderProductTags(product?.tags) : ""}
           </Text>
         </Stack>
 

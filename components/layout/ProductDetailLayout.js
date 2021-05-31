@@ -10,7 +10,7 @@ const ProductDetailLayout = ({ children, productName }) => {
   return (
     <React.Fragment>
       <Head>
-        <meta name="theme-color" content="#ffe508" />
+        <meta name="theme-color" content="#fdc830" />
       </Head>
       <ProductDetailHeader
         productName={productName}

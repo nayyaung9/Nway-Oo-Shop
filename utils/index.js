@@ -10,3 +10,7 @@ export function capFirstWordFromString(words) {
 export function numberWithCommas(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
+
+export function textStringToUrl(string) {
+  return string.replace(/\s/g, "-").toLowerCase();
+}

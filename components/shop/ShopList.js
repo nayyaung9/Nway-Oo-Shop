@@ -11,7 +11,9 @@ import {
   Text,
   Stack,
   useColorModeValue,
+  Link,
 } from "@chakra-ui/react";
+import { textStringToUrl, capFirstWordFromString } from "@/utils/index";
 
 export function useShops() {
   return useSWRInfinite(
@@ -47,8 +49,9 @@ const ShopList = () => {
             shops.map((shop, i) => (
               <Center className="store-card" key={i}>
                 <Box
-                  maxW={"180px"}
+                  maxW={"200px"}
                   w={"full"}
+                  h="100%"
                   bg={useColorModeValue("white", "gray.800")}
                   rounded={"md"}
                   overflow={"hidden"}
@@ -57,16 +60,16 @@ const ShopList = () => {
                     h={"180px"}
                     w={"full"}
                     src={
-                      "https://static-01.shop.com.mm/original/fbde0a9ef01c979c4063a3e4c0bc93f7.jpg"
+                      shop?.storeCoverPhoto
+                        ? shop?.storeCoverPhoto
+                        : "/default/shop-defaut-cover-photo.jpg"
                     }
-                    objectFit={"center"}
+                    objectFit={"cover"}
                   />
                   <Flex justify={"center"} mt={-9}>
                     <Avatar
                       size={"lg"}
-                      src={
-                        "https://static-01.shop.com.mm/other/shop/b98f57c2d6b599c26ca9f1a23a36de57.jpeg"
-                      }
+                      src={shop?.storeProfile ? shop.storeProfile : ""}
                       alt={"Author"}
                       css={{
                         border: "2px solid white",
@@ -81,10 +84,16 @@ const ShopList = () => {
                         fontWeight={500}
                         fontFamily={"body"}
                       >
-                        {shop ? shop.shopname : ""}
+                        <Link
+                          href={`/${shop && shop?._id}/${
+                            shop && textStringToUrl(shop?.shopname)
+                          }`}
+                        >
+                          {shop ? capFirstWordFromString(shop.shopname) : ""}
+                        </Link>
                       </Heading>
                       <Text color={"gray.500"} isTruncated>
-                        Frontend Developer
+                        {shop?.shortBio ? shop?.shortBio : ""}
                       </Text>
                     </Stack>
                   </Box>

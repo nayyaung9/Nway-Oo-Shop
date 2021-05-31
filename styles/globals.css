@@ -1,10 +1,10 @@
-@import url('https://mmwebfonts.comquas.com/fonts/?font=pyidaungsu');
+@import url("https://mmwebfonts.comquas.com/fonts/?font=pyidaungsu");
 
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: 'Pyidaungsu' !important;
+  font-family: "Pyidaungsu" !important;
   overflow-x: hidden;
   height: 100%;
 }
@@ -39,4 +39,24 @@ body {
 
 .linkHref:hover {
   color: #007bff !important;
+}
+
+.action-banner-dashed {
+  padding: 12px;
+  margin: 30px auto;
+  border: 1px dashed #aaaaaa;
+  border-radius: 4px;
+}
+
+.header-boxshadow {
+  /* background-image: linear-gradient(
+    to right top,
+    #fdc830,
+    #feb32b,
+    #fd9d2c,
+    #f98830,
+    #f37335
+  ); */
+
+  background-color: #fdc830;
 }

@@ -58,7 +58,7 @@ export const productValidator = yup.object().shape({
   price: yup
     .string()
     .min(3, "Price must be at least 3 characters")
-    .max(100)
+    .max(250)
     .required("Price is required"),
 
   delivery: yup
@@ -73,7 +73,8 @@ export const shopInformationValidator = yup.object().shape({
   shopname: yup.string().max(100).required("Shop name is required"),
   phoneNumber: yup.string().max(100).required("Phone number is required"),
 
-  shopAddress: yup.string().max(250).required("Shop address is required"),
+  shopAddress: yup.string().max(250),
 
   orderSystem: yup.string().max(100),
+  shortBio: yup.string().max(80, "Short Bio is up to 80 characters"),
 });
