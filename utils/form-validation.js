@@ -64,7 +64,7 @@ export const productValidator = yup.object().shape({
   delivery: yup
     .string()
     .min(3, "Delivery input must be at least 3 characters")
-    .max(100)
+    .max(300)
     .required("Delivery Status is required"),
   payment: yup.string().max(100),
 });
