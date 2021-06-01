@@ -116,7 +116,7 @@ const ShopSetting = ({ data }) => {
               display: "flex",
               flexDirection: "row",
               alignItems: "center",
-              marginBottom: 10,
+              marginBottom: 20,
             }}
           >
             {state.storeProfileLoading ? (
@@ -124,7 +124,9 @@ const ShopSetting = ({ data }) => {
             ) : (
               <Avatar
                 name="Dan Abrahmov"
-                src={data?.storeProfile ? data?.storeProfile : ""}
+                src={
+                  data?.storeProfile ? data?.storeProfile : "/default/logo.png"
+                }
               />
             )}
 
@@ -137,7 +139,10 @@ const ShopSetting = ({ data }) => {
               ref={profileRef}
               onChange={onStoreImageUpload}
             />
-            <label htmlFor="file"> Click Here </label>
+            <label htmlFor="file" style={{ marginLeft: 8 }}>
+              {" "}
+              Click Here{" "}
+            </label>
           </div>
 
           <div
@@ -153,8 +158,12 @@ const ShopSetting = ({ data }) => {
               <Image
                 boxSize="100px"
                 objectFit="cover"
-                src={data?.storeCoverPhoto ? data?.storeCoverPhoto : ""}
-                alt="Segun Adebayo"
+                src={
+                  data?.storeCoverPhoto
+                    ? data?.storeCoverPhoto
+                    : "/default/logo.png"
+                }
+                alt="Shop Cover Photo"
               />
             )}
 
@@ -167,7 +176,10 @@ const ShopSetting = ({ data }) => {
               ref={coverPhotoRef}
               onChange={onStoreCoverPhotoUpload}
             />
-            <label htmlFor="coverPhoto"> Change Shop Cover Photo </label>
+            <label htmlFor="coverPhoto" style={{ marginLeft: 8 }}>
+              {" "}
+              Change Shop Cover Photo{" "}
+            </label>
           </div>
         </div>
 

@@ -8,7 +8,7 @@ handler.use(all);
 
 handler.post(async (req, res) => {
   const { shopname, phoneNumber, shopOwnerId } = req.body;
-
+  
   const newShop = await registerShop(req.db, {
     shopname,
     phoneNumber,

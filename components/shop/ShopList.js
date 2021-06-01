@@ -57,19 +57,19 @@ const ShopList = () => {
                   overflow={"hidden"}
                 >
                   <Image
-                    h={"180px"}
+                    h={"150px"}
                     w={"full"}
                     src={
                       shop?.storeCoverPhoto
                         ? shop?.storeCoverPhoto
-                        : "/default/shop-defaut-cover-photo.jpg"
+                        : "/default/logo.png"
                     }
                     objectFit={"cover"}
                   />
                   <Flex justify={"center"} mt={-9}>
                     <Avatar
-                      size={"lg"}
-                      src={shop?.storeProfile ? shop.storeProfile : "https://image.freepik.com/free-vector/food-set-square-logo-flat-icon_126523-252.jpg"}
+                      size={"xl"}
+                      src={shop?.storeProfile ? shop.storeProfile : "/default/logo.png"}
                       alt={"Author"}
                       css={{
                         border: "2px solid white",

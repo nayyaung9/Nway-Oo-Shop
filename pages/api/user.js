@@ -25,12 +25,12 @@ handler.post(async (req, res) => {
     fullname,
   });
 
-  req.logIn(user, (err) => {
-    if (err) throw err;
-    res.status(201).json({
-      user: req.user
-    });
-  });
+  // req.logIn(user, (err) => {
+  //   if (err) throw err;
+  //   res.status(201).json({
+  //     user: req.user
+  //   });
+  // });
   
   // res.status(201).json({ user });
 });

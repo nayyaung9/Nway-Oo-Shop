@@ -192,7 +192,6 @@ export default function Register() {
                   phoneNumber,
                   shopOwnerId: userObj?.user?._id,
                 };
-
                 const createShop = await fetch("/api/shop", {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
@@ -200,7 +199,8 @@ export default function Register() {
                 });
 
                 if (createShop.status === 201) {
-                  mutate(userObj);
+                  // mutate(userObj);
+                  Router.replace("/shop/confirmation")
                 }
               } else {
                 setErrorMsg(await res.text());
@@ -221,7 +221,7 @@ export default function Register() {
                     label="Shop contact number"
                   />
 
-                  <InputControl name="fbLink" label="Facebook Link" />
+                  <InputControl name="fbLink" label="Your Business Page or Account Link" />
 
                   <Divider />
 

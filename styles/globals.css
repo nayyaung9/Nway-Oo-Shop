@@ -1,5 +1,8 @@
 @import url("https://mmwebfonts.comquas.com/fonts/?font=pyidaungsu");
+#__next {
+  height: 100%;
 
+}
 html,
 body {
   padding: 0;
@@ -23,14 +26,6 @@ body {
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
   border: 1px solid #e4e7ea;
   z-index: 9;
-}
-.slick-next {
-  right: -25px;
-}
-
-.slick-next {
-  background-image: url("/public/next-arrow.png");
-  color: #3a393a;
 }
 
 .linkHref {

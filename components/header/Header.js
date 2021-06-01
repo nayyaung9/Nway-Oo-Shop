@@ -14,9 +14,11 @@ import {
   useDisclosure,
   useColorModeValue,
   Stack,
+  Text
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
+import { theme } from "@/utils/theme";
 
 const Links = ["About Us", "Delivery"];
 
@@ -67,7 +69,16 @@ export default function Header({ isAuth, shop }) {
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={"center"}>
-            <Box>Nweoo Snacks</Box>
+            <Box>
+              <Text
+                textAlign={"center"}
+                fontFamily={"heading"}
+                fontWeight="bold"
+                color={theme.secondaryColor}
+              >
+                Nweoo Snacks
+              </Text>
+            </Box>
             <HStack
               as={"nav"}
               spacing={4}
@@ -90,7 +101,9 @@ export default function Header({ isAuth, shop }) {
                   <Avatar
                     size={"sm"}
                     src={
-                      "https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
+                      shop?.storeProfile
+                        ? shop?.storeProfile
+                        : "./default/shop-default-profile.png"
                     }
                   />
                 </MenuButton>
@@ -139,7 +152,7 @@ export default function Header({ isAuth, shop }) {
                   fontSize={"sm"}
                   fontWeight={600}
                   color={"white"}
-                  bg={"pink.400"}
+                  bg={theme.secondaryColor}
                   as="a"
                   href="/register"
                   _hover={{

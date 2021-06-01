@@ -32,6 +32,7 @@ export async function registerShop(db, { shopname, phoneNumber, shopOwnerId }) {
       shopname,
       phoneNumber,
       shopOwnerId,
+      isShopVerify: false,
       createdAt: new Date().toString(),
     })
     .then(({ ops }) => ops[0]);

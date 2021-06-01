@@ -37,7 +37,7 @@ const ShopName = ({ data }) => {
               <HStack>
                 <Avatar
                   name="Dan Abrahmov"
-                  src={shop?.storeProfile ? shop?.storeProfile : ""}
+                  src={shop?.storeProfile ? shop?.storeProfile : "/default/logo.png"}
                 />
                 <Stack>
                   <Heading as="h4" size="md">

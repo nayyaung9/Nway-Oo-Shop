@@ -1,4 +1,3 @@
-import ProductHorizontalList from "@/components/products/ProductHorizontalList";
 import Head from "next/head";
 import Layout from "../components/layout/Layout";
 import { Container } from "@chakra-ui/react";
@@ -6,6 +5,7 @@ import { useSWRInfinite } from "swr";
 import fetcher from "@/lib/fetch";
 import ShopList from "@/components/shop/ShopList";
 import ProductGridList from "@/components/products/ProductGridList";
+import { theme } from "@/utils/theme";
 
 export function useProducts() {
   return useSWRInfinite(
@@ -30,7 +30,7 @@ export default function Home() {
       <Head>
         <title>Newoo Snacks</title>
       </Head>
-      <div style={{ background: "#f5f5f5" }}>
+      <div style={{ background: theme.bgGrayColor }}>
         <ShopList />
         <Container maxW="container.xl" mt="8" pb="8">
           <ProductGridList products={products} />

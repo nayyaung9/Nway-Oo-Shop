@@ -139,7 +139,11 @@ const ProductDetail = ({ data }) => {
                   >
                     <Avatar
                       name="Ryan Florence"
-                      src="https://bit.ly/ryan-florence"
+                      src={
+                        product?.shop?.storeProfile
+                          ? product?.shop?.storeProfile
+                          : "./default/shop-default-profile.png"
+                      }
                     />
                     <Text ml="3">{product?.shop?.shopname}</Text>
                   </div>
