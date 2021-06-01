@@ -32,7 +32,7 @@ handler.post(async (req, res) => {
   //   });
   // });
   
-  // res.status(201).json({ user });
+  res.status(201).json({ user });
 });
 
 export default handler;
