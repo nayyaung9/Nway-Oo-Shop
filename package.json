@@ -14,6 +14,8 @@
     "@ckeditor/ckeditor5-react": "^3.0.2",
     "@emotion/react": "^11.0.0",
     "@emotion/styled": "^11.0.0",
+    "@fontsource/source-sans-pro": "^4.4.2",
+    "@fontsource/ubuntu-mono": "^4.4.2",
     "bcryptjs": "^2.4.3",
     "cloudinary": "^1.25.1",
     "connect-mongo": "3",

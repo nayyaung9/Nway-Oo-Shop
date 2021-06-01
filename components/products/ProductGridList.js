@@ -1,11 +1,12 @@
 import React from "react";
 import { SimpleGrid, Heading } from "@chakra-ui/react";
 import ProductItemCard from "./ProductItemCard";
+import { theme } from "@/utils/theme";
 
 const ProductGridList = ({ products, productListName }) => {
   return (
     <React.Fragment>
-      <Heading as="h4" color="gray.600" size="md" mb="3">
+      <Heading as="h4" color={theme.secondaryColor} size="md" mb="3">
         {productListName ? productListName : "Just For You"}
       </Heading>
       <SimpleGrid columns={2} minChildWidth="250px" spacing="10px">

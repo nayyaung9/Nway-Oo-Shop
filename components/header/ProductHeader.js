@@ -49,7 +49,7 @@ export default function ProductDetailHeader({ isAuth, shop, productName }) {
               display={{ md: "none" }}
               onClick={() => router.back()}
             />
-            <Heading as="h5" size="sm" color="white">
+            <Heading as="h5" size="sm" color="white" noOfLines="1">
               {productName}
             </Heading>
           </HStack>
@@ -67,7 +67,7 @@ export default function ProductDetailHeader({ isAuth, shop, productName }) {
                     src={
                       shop?.storeProfile
                         ? shop?.storeProfile
-                        : "./default/shop-default-profile.png"
+                        : "./default/logo.png"
                     }
                   />
                 </MenuButton>

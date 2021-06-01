@@ -7,6 +7,7 @@ import {
   IconButton,
 } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
+import { theme } from '@/utils/theme';
 
 const SocialInputs = ({ social, setSocial }) => {
   const onAddRowToSocial = () => {
@@ -61,7 +62,7 @@ const SocialInputs = ({ social, setSocial }) => {
         <p style={{ color: "red" }}>Maximun Social Link is up to 3.</p>
       )}
       <Button
-        colorScheme="teal"
+        bg={theme.secondaryColor}
         size="sm"
         mt="4"
         onClick={onAddRowToSocial}

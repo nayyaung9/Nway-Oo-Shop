@@ -14,6 +14,7 @@ import {
   Link,
 } from "@chakra-ui/react";
 import { textStringToUrl, capFirstWordFromString } from "@/utils/index";
+import { theme } from "@/utils/theme";
 
 export function useShops() {
   return useSWRInfinite(
@@ -37,7 +38,7 @@ const ShopList = () => {
     <React.Fragment>
       <Box p={4}>
         <div className="flex-between">
-          <Heading as="h4" color="gray.600" size="md">
+          <Heading as="h4" color={theme.secondaryColor} size="md">
             Official Stores{" "}
           </Heading>
           <Text>See All</Text>

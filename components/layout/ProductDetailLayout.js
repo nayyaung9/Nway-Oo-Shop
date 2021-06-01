@@ -2,6 +2,7 @@ import React from "react";
 import Head from 'next/head';
 import ProductDetailHeader from "../header/ProductHeader";
 import { useCurrentUser, useOwnShop } from "@/hooks/index";
+import Footer from "../footer/Footer";
 
 const ProductDetailLayout = ({ children, productName }) => {
   const [user] = useCurrentUser();
@@ -18,6 +19,7 @@ const ProductDetailLayout = ({ children, productName }) => {
         shop={shop}
       />
       {children}
+      <Footer />
     </React.Fragment>
   );
 };

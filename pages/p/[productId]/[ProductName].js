@@ -15,6 +15,7 @@ import { fetchProductById, fetchShopById } from "@/db/index";
 import ProductDetailImageSlider from "@/components/products/ProductDetailImageSlider";
 import { numberWithCommas, removeTags } from "@/utils/index";
 import { SearchIcon } from "@chakra-ui/icons";
+import { theme } from '@/utils/theme';
 
 const ProductDetail = ({ data }) => {
   const product = JSON.parse(data);
@@ -57,7 +58,7 @@ const ProductDetail = ({ data }) => {
                     marginBottom: 4,
                   }}
                 >
-                  <Heading as="h4" size="md">
+                  <Heading as="h4" size="md" color={theme.secondaryColor}>
                     Ks{" "}
                     {numberWithCommas(
                       product?.estimatedPrice ? product?.estimatedPrice : 0
@@ -142,10 +143,13 @@ const ProductDetail = ({ data }) => {
                       src={
                         product?.shop?.storeProfile
                           ? product?.shop?.storeProfile
-                          : "./default/shop-default-profile.png"
+                          : "./default/logo.png"
                       }
                     />
-                    <Text ml="3">{product?.shop?.shopname}</Text>
+                    <div>
+                      <Text ml="3">{product?.shop?.shopname}</Text>
+                      <Text ml="3">{product?.shop?.phoneNumber}</Text>
+                    </div>
                   </div>
                   <Button colorScheme="orange" variant="outline" size="sm">
                     Visit Store

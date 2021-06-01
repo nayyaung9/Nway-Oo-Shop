@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from "react";
 import Head from "next/head";
-import Layout from "@/components/layout/Layout";
 import {
   Container,
   Box,
   Stack,
   FormControl,
   FormLabel,
-  Input,
   FormHelperText,
-  Button,
   Wrap,
   WrapItem,
   Image,
   Spinner,
+  useToast,
 } from "@chakra-ui/react";
 import TagsInput from "react-tagsinput";
 
@@ -25,7 +23,9 @@ import { useRouter } from "next/router";
 import { InputControl, SubmitButton, TextareaControl } from "formik-chakra-ui";
 import { productValidator } from "@/utils/form-validation";
 import { Formik } from "formik";
+import { theme } from '@/utils/theme';
 import "react-tagsinput/react-tagsinput.css";
+import ProductNewHeader from "@/components/header/ProductNewHeader";
 
 const Editor = dynamic(() => import("@/components/editor/Editor"), {
   ssr: false,
@@ -33,6 +33,7 @@ const Editor = dynamic(() => import("@/components/editor/Editor"), {
 
 const CreateProduct = () => {
   const router = useRouter();
+  const toast = useToast();
 
   const [user, { mutate }] = useCurrentUser();
   const [shop] = useOwnShop(user?._id);
@@ -56,11 +57,12 @@ const CreateProduct = () => {
   ]);
 
   return (
-    <Layout>
+    <>
+    <ProductNewHeader />
       <Head>
         <title>Create Product | Nweoo Snaks</title>
       </Head>
-      <Container maxW="container.lg" mt="4" mb="8">
+      <Container maxW="container.lg" mt="4" pb="12">
         <Formik
           initialValues={{
             title: "",
@@ -88,6 +90,13 @@ const CreateProduct = () => {
             });
             if (res.status === 201) {
               const { newShop } = await res.json();
+              toast({
+                title: "Product created successfully.",
+                description: "You will redirect to your product soon.",
+                status: "success",
+                duration: 9000,
+                isClosable: true,
+              });
               router.push(
                 `/p/${newShop?._id}/${newShop?.title
                   .replace(/\s/g, "-")
@@ -204,7 +213,7 @@ const CreateProduct = () => {
                   </FormControl>
                 </div>
 
-                <SubmitButton colorScheme="teal" size="sm" mt="4">
+                <SubmitButton bg={theme.secondaryColor} size="sm" mt="4">
                   Create Product
                 </SubmitButton>
               </Stack>
@@ -212,7 +221,7 @@ const CreateProduct = () => {
           )}
         </Formik>
       </Container>
-    </Layout>
+    </>
   );
 };
 
