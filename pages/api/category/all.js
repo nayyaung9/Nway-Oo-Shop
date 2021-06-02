@@ -1,15 +1,15 @@
 import nc from "next-connect";
 import { all } from "@/middlewares/index";
-import { fetchAllProducts } from "@/db/index";
+import { fetchAllCategories } from "@/db/index";
 
 const handler = nc();
 
 handler.use(all);
 
 handler.get(async (req, res) => {
-  const products = await fetchAllProducts(req.db);
+  const catelogs = await fetchAllCategories(req.db);
 
-  res.send({ products });
+  res.send({ catelogs });
 });
 
 export default handler;

@@ -1,5 +1,8 @@
+// Components
 import React, { useState, useEffect } from "react";
+import ProductNewHeader from "@/components/header/ProductNewHeader";
 import Head from "next/head";
+import dynamic from "next/dynamic";
 import {
   Container,
   Box,
@@ -12,20 +15,22 @@ import {
   Image,
   Spinner,
   useToast,
+  Select,
+  HStack,
 } from "@chakra-ui/react";
+import { InputControl, SubmitButton, TextareaControl } from "formik-chakra-ui";
 import TagsInput from "react-tagsinput";
-
-import dynamic from "next/dynamic";
 import SocialInputs from "@/components/social/SocialInputs";
 import MultipleFileUpload from "@/components/MultipleFileUpload/MultipleFileUpload";
+import { Formik } from "formik";
+
+// Utils & Hooks
 import { useCurrentUser, useOwnShop } from "@/hooks/index";
 import { useRouter } from "next/router";
-import { InputControl, SubmitButton, TextareaControl } from "formik-chakra-ui";
 import { productValidator } from "@/utils/form-validation";
-import { Formik } from "formik";
-import { theme } from '@/utils/theme';
+import { theme } from "@/utils/theme";
+import { useParentCategories } from "@/hooks/index";
 import "react-tagsinput/react-tagsinput.css";
-import ProductNewHeader from "@/components/header/ProductNewHeader";
 
 const Editor = dynamic(() => import("@/components/editor/Editor"), {
   ssr: false,
@@ -37,6 +42,11 @@ const CreateProduct = () => {
 
   const [user, { mutate }] = useCurrentUser();
   const [shop] = useOwnShop(user?._id);
+  const { data } = useParentCategories();
+
+  const parentCategory = data
+    ? data.reduce((acc, val) => [...acc, ...val.catelogs], [])
+    : [];
 
   useEffect(() => {
     // redirect to home if user is not authenticated
@@ -46,6 +56,11 @@ const CreateProduct = () => {
   const [state, setState] = useState({
     content: "",
     tags: [],
+    hasCategories: false,
+    hasChildrenCatelogs: false,
+    categoryPath: "",
+    childrenCatelogs: [],
+    categoryName: "",
   });
   const [productImages, setProductImages] = useState([]);
   const [productImageLoading, setProductImageLoading] = useState(false);
@@ -56,9 +71,41 @@ const CreateProduct = () => {
     },
   ]);
 
+  const onSelectParentCategory = async (e) => {
+    const category = e.target.value;
+
+    const res = await fetch(`/api/category/${category}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (res.status === 200) {
+      const { childCategories } = await res.json();
+      if (childCategories.length === 0) {
+        setState({
+          ...state,
+          hasCategories: true,
+          hasChildrenCatelogs: false,
+          categoryPath: `/${category}`,
+          categoryName: category, // laster this will use for category products
+        });
+      } else {
+        setState({
+          ...state,
+          hasChildrenCatelogs: true,
+          categoryPath: category,
+          childrenCatelogs: childCategories,
+          categoryName: category,
+        });
+      }
+    }
+  };
+
+  console.log("state", state);
+
   return (
     <>
-    <ProductNewHeader />
+      <ProductNewHeader />
       <Head>
         <title>Create Product | Nweoo Snaks</title>
       </Head>
@@ -81,6 +128,8 @@ const CreateProduct = () => {
               userId: user?._id,
               shopId: shop?._id,
               productImages,
+              categories: [state.categoryPath],
+              categoryName: state.categoryName,
             };
 
             const res = await fetch("/api/product", {
@@ -117,105 +166,151 @@ const CreateProduct = () => {
                     Please describe your item name.
                   </FormHelperText>
                 </FormControl>
-                <FormControl id="email" isRequired>
-                  <FormLabel>Item Description</FormLabel>
-                  <Editor
-                    value={state.content}
-                    onChange={(e) => setState({ ...state, content: e })}
-                  />
-                  <FormHelperText>
-                    Fully describe about your item.
-                  </FormHelperText>
-                </FormControl>
 
-                <FormControl id="tags">
-                  <FormLabel>Tags</FormLabel>
-                  <TagsInput
-                    value={state.tags}
-                    onChange={(tags) => setState({ ...state, tags })}
-                  />
-
-                  <FormHelperText>
-                    Describe the category your product belongs to
-                  </FormHelperText>
-                </FormControl>
-
-                <FormLabel htmlFor="writeUpFile">Product Images</FormLabel>
-
-                <div className="product-image-banner">
-                  {productImages && productImages.length >= 5 && (
-                    <p style={{ color: "red" }}>
-                      Maximum product images are up to 5.
-                    </p>
-                  )}
-                  <MultipleFileUpload
-                    productImages={productImages}
-                    setProductImages={setProductImages}
-                    setProductImageLoading={setProductImageLoading}
-                  />
-
-                  <Wrap mt="4">
-                    {productImages &&
-                      productImages.map((item, i) => {
-                        return (
-                          <React.Fragment>
-                            <WrapItem key={i}>
-                              <Image
-                                boxSize="100px"
-                                objectFit="cover"
-                                src={item}
-                                alt="Segun Adebayo"
-                              />
-                            </WrapItem>
-                          </React.Fragment>
-                        );
-                      })}
-                    {productImageLoading && <Spinner />}
-                  </Wrap>
-                </div>
-
-                <FormControl id="estimatedPrice" isRequired>
-                  <InputControl
-                    name="estimatedPrice"
-                    label="Estimated Price"
-                    inputProps={{ placeholder: "Estimated Price" }}
-                  />
-                </FormControl>
-
-                <FormControl id="price" isRequired>
-                  <TextareaControl
-                    name="price"
-                    label="Price"
-                    textareaProps={{ placeholder: "Price" }}
-                  />
-                </FormControl>
-
-                <FormControl id="delivery" isRequired>
-                  <TextareaControl
-                    name="delivery"
-                    label="Delivery"
-                    textareaProps={{ placeholder: "Delivery for this product" }}
-                  />
-                </FormControl>
-
-                <FormControl id="payment" isRequired>
-                  <TextareaControl
-                    name="payment"
-                    label="Payment"
-                    textareaProps={{ placeholder: "Payment for this product" }}
-                  />
-                </FormControl>
-
-                <div className="product-image-banner">
-                  <FormControl id="social">
-                    <FormLabel>Social</FormLabel>
-                    <SocialInputs social={social} setSocial={setSocial} />
+                <HStack>
+                  <FormControl id="catelogs" isRequired>
+                    <Select
+                      placeholder="Select Category"
+                      onChange={onSelectParentCategory}
+                    >
+                      {parentCategory &&
+                        parentCategory.map((category, i) => (
+                          <option key={i} value={category.name}>
+                            {category.name}
+                          </option>
+                        ))}
+                    </Select>
                   </FormControl>
-                </div>
+                  {state.hasChildrenCatelogs && (
+                    <FormControl id="catelogs" isRequired>
+                      <Select
+                        placeholder="Select Child Category"
+                        onChange={(e) =>
+                          setState({
+                            ...state,
+                            categoryPath: e.target.value,
+                            hasCategories: true,
+                          })
+                        }
+                      >
+                        {state.childrenCatelogs &&
+                          state.childrenCatelogs.map((category, i) => (
+                            <option key={i} value={category.path}>
+                              {category.name}
+                            </option>
+                          ))}
+                      </Select>
+                    </FormControl>
+                  )}
+                </HStack>
 
-                <SubmitButton bg={theme.secondaryColor} size="sm" mt="4">
-                  Create Product
-                </SubmitButton>
+                {state.hasCategories && (
+                  <React.Fragment>
+                    <FormControl id="email" isRequired>
+                      <FormLabel>Item Description</FormLabel>
+                      <Editor
+                        value={state.content}
+                        onChange={(e) => setState({ ...state, content: e })}
+                      />
+                      <FormHelperText>
+                        Fully describe about your item.
+                      </FormHelperText>
+                    </FormControl>
+
+                    <FormControl id="tags">
+                      <FormLabel>Tags</FormLabel>
+                      <TagsInput
+                        value={state.tags}
+                        onChange={(tags) => setState({ ...state, tags })}
+                      />
+
+                      <FormHelperText>
+                        Describe the category your product belongs to
+                      </FormHelperText>
+                    </FormControl>
+
+                    <FormLabel htmlFor="writeUpFile">Product Images</FormLabel>
+
+                    <div className="product-image-banner">
+                      {productImages && productImages.length >= 5 && (
+                        <p style={{ color: "red" }}>
+                          Maximum product images are up to 5.
+                        </p>
+                      )}
+                      <MultipleFileUpload
+                        productImages={productImages}
+                        setProductImages={setProductImages}
+                        setProductImageLoading={setProductImageLoading}
+                      />
+
+                      <Wrap mt="4">
+                        {productImages &&
+                          productImages.map((item, i) => {
+                            return (
+                              <React.Fragment>
+                                <WrapItem key={i}>
+                                  <Image
+                                    boxSize="100px"
+                                    objectFit="cover"
+                                    src={item}
+                                    alt="Segun Adebayo"
+                                  />
+                                </WrapItem>
+                              </React.Fragment>
+                            );
+                          })}
+                        {productImageLoading && <Spinner />}
+                      </Wrap>
+                    </div>
+
+                    <FormControl id="estimatedPrice" isRequired>
+                      <InputControl
+                        name="estimatedPrice"
+                        label="Estimated Price"
+                        inputProps={{ placeholder: "Estimated Price" }}
+                      />
+                    </FormControl>
+
+                    <FormControl id="price" isRequired>
+                      <TextareaControl
+                        name="price"
+                        label="Price"
+                        textareaProps={{ placeholder: "Price" }}
+                      />
+                    </FormControl>
+
+                    <FormControl id="delivery" isRequired>
+                      <TextareaControl
+                        name="delivery"
+                        label="Delivery"
+                        textareaProps={{
+                          placeholder: "Delivery for this product",
+                        }}
+                      />
+                    </FormControl>
+
+                    <FormControl id="payment" isRequired>
+                      <TextareaControl
+                        name="payment"
+                        label="Payment"
+                        textareaProps={{
+                          placeholder: "Payment for this product",
+                        }}
+                      />
+                    </FormControl>
+
+                    <div className="product-image-banner">
+                      <FormControl id="social">
+                        <FormLabel>Social</FormLabel>
+                        <SocialInputs social={social} setSocial={setSocial} />
+                      </FormControl>
+                    </div>
+
+                    <SubmitButton bg={theme.secondaryColor} size="sm" mt="4">
+                      Create Product
+                    </SubmitButton>
+                  </React.Fragment>
+                )}
               </Stack>
             </Box>
           )}

@@ -52,3 +52,7 @@ export async function updateShop(db, data) {
     )
     .then(({ value }) => value);
 }
+
+export async function fetchShopsByUnVerify(db) {
+  return db.collection("shops").find({ isShopVerify: false }).toArray();
+}

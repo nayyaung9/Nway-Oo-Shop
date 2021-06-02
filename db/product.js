@@ -1,11 +1,7 @@
 import { nanoid } from "nanoid";
 
 export async function fetchAllProducts(db) {
-  return db
-    .collection("products")
-    .find()
-    .sort({ createdAt: -1 })
-    .toArray();
+  return db.collection("products").find().sort({ createdAt: -1 }).toArray();
 }
 
 export async function fetchProductsByShop(db, shopId) {
@@ -37,6 +33,8 @@ export async function createProduct(
     delivery,
     payment,
     estimatedPrice,
+    categories,
+    categoryName,
   }
 ) {
   return db
@@ -54,7 +52,18 @@ export async function createProduct(
       delivery,
       payment,
       estimatedPrice,
+      categories,
+      categoryName,
       createdAt: new Date(),
     })
     .then(({ ops }) => ops[0]);
+}
+
+export async function fetchLastestProducts(db) {
+  return db
+    .collection("products")
+    .find()
+    .sort({ createdAt: -1 })
+    .limit(4)
+    .toArray();
 }

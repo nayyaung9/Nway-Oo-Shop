@@ -12,6 +12,20 @@
 }
 
 .scrolling-wrapper {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+
+.scrolling-wrapper > div {
+  flex: 0 0 auto;
+  background-color: white;
+  margin-right: 12px;
+  border-radius: 8px;
+  width: 80%;
+}
+
+.scrolling-wrapper {
   -webkit-overflow-scrolling: touch;
 }
 
@@ -22,10 +36,10 @@
   margin-bottom: 8px;
 }
 
-.scrolling-wrapper-flexbox {
+.scrolling-wrapper-flexbox, .scrolling-wrapper {
   -ms-overflow-style: none;  /* Internet Explorer 10+ */
   scrollbar-width: none;  /* Firefox */
 }
-.scrolling-wrapper-flexbox::-webkit-scrollbar { 
+.scrolling-wrapper-flexbox::-webkit-scrollbar,  .scrolling-wrapper::-webkit-scrollbar { 
   display: none;  /* Safari and Chrome */
 }
