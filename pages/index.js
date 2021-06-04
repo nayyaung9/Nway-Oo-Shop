@@ -33,12 +33,14 @@ export default function Home() {
       </Head>
       <div style={{ background: theme.bgGrayColor }}>
         <ShopList />
-        <Container maxW="container.xl" mt="8" pb="8">
-          <ProductGridList
-            productListName="Lastest Products"
-            products={products}
-          />
-        </Container>
+        <div style={{ background: "white" }}>
+          <Container maxW="container.xl" pt="4" mb="8">
+            <ProductGridList
+              productListName="Lastest Products"
+              products={products}
+            />
+          </Container>
+        </div>
 
         <div style={{ background: "white" }}>
           <Container maxW="container.xl" pt="4" mb="8">
@@ -60,10 +62,7 @@ export default function Home() {
 
         <div style={{ background: "white" }}>
           <Container maxW="container.xl" pt="4" mb="8">
-            <ProductHorizontalList
-              title="အ၀တ်အထည်များ"
-              category="apparel"
-            />
+            <ProductHorizontalList title="အ၀တ်အထည်များ" category="apparel" />
           </Container>
         </div>
       </div>

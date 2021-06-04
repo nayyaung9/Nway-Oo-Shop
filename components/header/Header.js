@@ -14,7 +14,10 @@ import {
   useDisclosure,
   useColorModeValue,
   Stack,
-  Text
+  Text,
+  InputGroup,
+  Input,
+  InputRightElement,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
@@ -89,6 +92,17 @@ export default function Header({ isAuth, shop }) {
               ))}
             </HStack>
           </HStack>
+          {/* <HStack spacing={8} alignItems={"center"}>
+            <InputGroup size="md"  style={{ flex: 1 }}>
+              <Input pr="4.5rem" type="text" placeholder="Enter password" />
+              <InputRightElement width="4.5rem">
+                <Button h="1.75rem" size="sm">
+                  show
+                </Button>
+              </InputRightElement>
+            </InputGroup>
+          </HStack> */}
+
           <Flex alignItems={"center"}>
             {isAuth ? (
               <Menu>

@@ -10,14 +10,6 @@ import {
 import { capFirstWordFromString, numberWithCommas } from "@/utils/index";
 
 export default function ProductItemCard({ product }) {
-  const renderProductTags = (tags) => {
-    return (
-      Array.isArray(tags) &&
-      tags.map((tag, i) => {
-        return `${tag} • `;
-      })
-    );
-  };
   return (
     <Box
       h="full"
@@ -30,7 +22,7 @@ export default function ProductItemCard({ product }) {
         <Image
           height={180}
           width={"full"}
-          objectFit={"cover"}
+          objectFit={"contain"}
           src={product?.productImages[0]}
           // borderRadius="md"
           borderTopLeftRadius="md"
@@ -38,7 +30,7 @@ export default function ProductItemCard({ product }) {
         />
       </Box>
       <Stack p={2}>
-        <Heading as="h6" size="xs">
+        <Heading as="h6" size="xs" isTruncated>
           <Link
             href={`/p/${product?._id}/${product.title
               .replace(/\s/g, "-")
@@ -48,12 +40,6 @@ export default function ProductItemCard({ product }) {
             {capFirstWordFromString(product?.title)}
           </Link>
         </Heading>
-
-        <Stack direction={"row"} align={"center"}>
-          <Text color="gray.500" fontSize="sm">
-            {product?.tags ? renderProductTags(product?.tags) : ""}
-          </Text>
-        </Stack>
 
         <Stack direction={"row"} align={"center"}>
           <Text color="gray.700" fontSize="sm">
