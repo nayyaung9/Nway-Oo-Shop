@@ -26,7 +26,6 @@ export async function createProduct(
     content,
     price,
     social,
-    tags,
     userId,
     shopId,
     productImages,
@@ -35,6 +34,7 @@ export async function createProduct(
     estimatedPrice,
     categories,
     categoryName,
+    customerService,
   }
 ) {
   return db
@@ -54,6 +54,7 @@ export async function createProduct(
       estimatedPrice,
       categories,
       categoryName,
+      customerService,
       createdAt: new Date(),
     })
     .then(({ ops }) => ops[0]);

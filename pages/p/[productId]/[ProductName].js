@@ -11,15 +11,20 @@ import {
   IconButton,
 } from "@chakra-ui/react";
 import { all } from "@/middlewares/index";
-import { fetchProductById, fetchShopById } from "@/db/index";
+import {
+  fetchProductById,
+  fetchShopById,
+  fetchProductsByShop,
+} from "@/db/index";
 import ProductDetailImageSlider from "@/components/products/ProductDetailImageSlider";
 import { numberWithCommas, removeTags } from "@/utils/index";
 import { SearchIcon } from "@chakra-ui/icons";
-import { theme } from '@/utils/theme';
+import { theme } from "@/utils/theme";
+import RelatedProductList from "@/components/products/RelatedProductList";
 
 const ProductDetail = ({ data }) => {
   const product = JSON.parse(data);
-
+  console.log("ps", product);
   return (
     <ProductDetailLayout productName={product?.title}>
       <Head>
@@ -80,7 +85,13 @@ const ProductDetail = ({ data }) => {
 
             <Box pt={2} pb={2} bg="white" mt="3">
               <Container maxW="container.lg">
-                <Heading as="h6" size="sm" mb="3" color="gray.500">
+                <Heading
+                  as="h4"
+                  size="sm"
+                  color={theme.secondaryColor}
+                  size="md"
+                  mb="3"
+                >
                   Description
                 </Heading>
                 <div dangerouslySetInnerHTML={{ __html: product?.content }} />
@@ -89,7 +100,13 @@ const ProductDetail = ({ data }) => {
 
             <Box pt={2} pb={2} bg="white" mt="3">
               <Container maxW="container.lg">
-                <Heading as="h6" size="sm" mb="3" color="gray.500">
+                <Heading
+                  as="h4"
+                  size="sm"
+                  color={theme.secondaryColor}
+                  size="md"
+                  mb="3"
+                >
                   Various prices
                 </Heading>
                 <Text fontSize="md" color="gray.700">
@@ -100,7 +117,13 @@ const ProductDetail = ({ data }) => {
 
             <Box pt={2} pb={2} bg="white" mt="3">
               <Container maxW="container.lg">
-                <Heading as="h5" size="sm" mb="3" color="gray.500">
+                <Heading
+                  as="h4"
+                  size="sm"
+                  color={theme.secondaryColor}
+                  size="md"
+                  mb="3"
+                >
                   Delivery
                 </Heading>
                 <Text fontSize="md" color="gray.700">
@@ -111,7 +134,13 @@ const ProductDetail = ({ data }) => {
 
             <Box pt={2} pb={2} bg="white" mt="3">
               <Container maxW="container.lg">
-                <Heading as="h5" size="sm" mb="3" color="gray.500">
+                <Heading
+                  as="h4"
+                  size="sm"
+                  color={theme.secondaryColor}
+                  size="md"
+                  mb="3"
+                >
                   Payment
                 </Heading>
                 <Text fontSize="md" color="gray.700">
@@ -157,6 +186,32 @@ const ProductDetail = ({ data }) => {
                 </div>
               </Container>
             </Box>
+
+            <Box pt={2} pb={2} bg="white" mt="3">
+              <Container maxW="container.lg">
+                <Heading
+                  as="h4"
+                  size="sm"
+                  color={theme.secondaryColor}
+                  size="md"
+                  mb="3"
+                >
+                  Customer Service
+                </Heading>
+                <Text fontSize="md" color="gray.700">
+                  {product?.cutomerService ? product?.cutomerService : ""}
+                </Text>{" "}
+              </Container>
+            </Box>
+
+            <Box pt={2} pb={2} bg="white" mt="3">
+              <Container maxW="container.lg">
+                <RelatedProductList
+                  title={`${product?.shop?.shopname}'s Products`}
+                  shopProducts={product?.shopProducts}
+                />
+              </Container>
+            </Box>
           </Box>
         </React.Fragment>
       )}
@@ -176,9 +231,13 @@ export async function getServerSideProps(context) {
   const shop = await fetchShopById(context.req.db, product?.shopId);
   if (!shop) context.res.statusCode = 404;
 
+  const shopProducts = await fetchProductsByShop(context.req.db, shop?._id);
+  if (!shopProducts) context.res.statusCode = 404;
+
   const payload = {
     ...product,
     shop,
+    shopProducts,
   };
 
   return { props: { data: JSON.stringify(payload) } };

@@ -1,5 +1,5 @@
 import React from "react";
-import { FormControl, InputGroup } from "@chakra-ui/react";
+import { HStack } from "@chakra-ui/react";
 
 import { useRef } from "react";
 
@@ -35,8 +35,8 @@ const MultipleFileUpload = ({
   };
 
   return (
-    <FormControl>
-      <InputGroup>
+    <HStack>
+      
         <label htmlFor="productImage">
           <input
             type="file"
@@ -47,9 +47,8 @@ const MultipleFileUpload = ({
             ref={inputRef}
             onChange={onProductImagesUpload}
           />
-        </label>
-      </InputGroup>
-    </FormControl>
+        </label>   
+    </HStack>
   );
 };
 

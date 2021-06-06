@@ -6,6 +6,7 @@ const TextEditor = (props) => {
   return (
     <CKEditor
       editor={ClassicEditor}
+      data={props.value}
       config={{
         toolbar: [
           "bold",

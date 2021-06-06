@@ -19,7 +19,6 @@ import {
   HStack,
 } from "@chakra-ui/react";
 import { InputControl, SubmitButton, TextareaControl } from "formik-chakra-ui";
-import TagsInput from "react-tagsinput";
 import SocialInputs from "@/components/social/SocialInputs";
 import MultipleFileUpload from "@/components/MultipleFileUpload/MultipleFileUpload";
 import { Formik } from "formik";
@@ -30,7 +29,6 @@ import { useRouter } from "next/router";
 import { productValidator } from "@/utils/form-validation";
 import { theme } from "@/utils/theme";
 import { useParentCategories } from "@/hooks/index";
-import "react-tagsinput/react-tagsinput.css";
 
 const Editor = dynamic(() => import("@/components/editor/Editor"), {
   ssr: false,
@@ -101,8 +99,6 @@ const CreateProduct = () => {
     }
   };
 
-  console.log("state", state);
-
   return (
     <>
       <ProductNewHeader />
@@ -117,6 +113,7 @@ const CreateProduct = () => {
             payment: "",
             price: "",
             estimatedPrice: 0,
+            customerService: '',
           }}
           validationSchema={productValidator}
           onSubmit={async (values) => {
@@ -217,18 +214,6 @@ const CreateProduct = () => {
                       </FormHelperText>
                     </FormControl>
 
-                    <FormControl id="tags">
-                      <FormLabel>Tags</FormLabel>
-                      <TagsInput
-                        value={state.tags}
-                        onChange={(tags) => setState({ ...state, tags })}
-                      />
-
-                      <FormHelperText>
-                        Describe the category your product belongs to
-                      </FormHelperText>
-                    </FormControl>
-
                     <FormLabel htmlFor="writeUpFile">Product Images</FormLabel>
 
                     <div className="product-image-banner">
@@ -295,6 +280,16 @@ const CreateProduct = () => {
                         label="Payment"
                         textareaProps={{
                           placeholder: "Payment for this product",
+                        }}
+                      />
+                    </FormControl>
+
+                    <FormControl id="customerService" isRequired>
+                      <TextareaControl
+                        name="customerService"
+                        label="CUstomer Service"
+                        textareaProps={{
+                          placeholder: "Type how you service for your customer",
                         }}
                       />
                     </FormControl>
