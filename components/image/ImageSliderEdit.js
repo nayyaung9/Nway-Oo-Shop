@@ -23,9 +23,21 @@ const ImageSliderEdit = ({ images, setProductImages, isOpen, onClose }) => {
     arrows: false,
   };
 
-  const onDeleteImage = image => {
-    console.log('omg', image);
-  }
+  const onDeleteImage = async (image) => {
+    const res = await fetch(`/api/image/delete/n5xxbydeht6tkpur5bkz`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    console.log(res);
+
+    if (res.status === 200) {
+      const userObj = await res.json();
+      console.log("ans", userObj);
+    } else {
+     console.log()
+    }
+  };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
@@ -49,12 +61,7 @@ const ImageSliderEdit = ({ images, setProductImages, isOpen, onClose }) => {
                     }}
                   />
                   <Center mt="10">
-                    <Button
-                      disabled={images?.length === 1 ? true : false}
-                      onClick={() => onDeleteImage(image)}
-                    >
-                      Delete
-                    </Button>
+                    <Button onClick={() => onDeleteImage(image)}>Delete</Button>
                   </Center>
                 </div>
               ))}
@@ -65,7 +72,12 @@ const ImageSliderEdit = ({ images, setProductImages, isOpen, onClose }) => {
           <Button colorScheme="blue" mr={3} onClick={onClose}>
             Cancel
           </Button>
-          <Button variant="ghost">Save</Button>
+          <Button
+            disabled={images?.length === 1 ? true : false}
+            variant="ghost"
+          >
+            Save
+          </Button>
         </ModalFooter>
       </ModalContent>
     </Modal>

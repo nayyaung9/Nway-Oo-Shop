@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Link from 'next/link';
 import Head from "next/head";
 import {
   Box,
@@ -13,7 +14,6 @@ import {
   useBreakpointValue,
   Icon,
   Divider,
-  Link,
 } from "@chakra-ui/react";
 import { InputControl, SubmitButton } from "formik-chakra-ui";
 import Router from "next/router";
@@ -200,7 +200,7 @@ export default function Register() {
 
                 if (createShop.status === 201) {
                   // mutate(userObj);
-                  Router.replace("/shop/confirmation")
+                  Router.replace("/shop/confirmation");
                 }
               } else {
                 setErrorMsg(await res.text());
@@ -221,7 +221,10 @@ export default function Register() {
                     label="Shop contact number"
                   />
 
-                  <InputControl name="fbLink" label="Your Business Page or Account Link" />
+                  <InputControl
+                    name="fbLink"
+                    label="Your Business Page or Account Link"
+                  />
 
                   <Divider />
 
@@ -242,9 +245,7 @@ export default function Register() {
                   justify={"space-between"}
                   mt="4"
                 >
-                  <Link color={"blue.400"} as="a" href="/login">
-                    Already member?
-                  </Link>
+                  <Link href="/login">Already member?</Link>
                 </Stack>
                 {errorMsg ? <p style={{ color: "red" }}>{errorMsg}</p> : null}
 

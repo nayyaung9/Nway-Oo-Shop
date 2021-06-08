@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
+import Link from 'next/link';
 import {
   Flex,
   Box,
   FormControl,
   Stack,
-  Link,
   Heading,
   Text,
   useColorModeValue,
@@ -36,7 +36,7 @@ export default function Login() {
         <Stack align={"center"}>
           <Heading fontSize={"4xl"}>Sign in to your account</Heading>
           <Text fontSize={"lg"} color={"gray.600"}>
-            to enjoy all of our cool <Link color={"blue.400"}>features</Link> ✌️
+            to enjoy all of our cool features ✌️
           </Text>
         </Stack>
         <Formik
@@ -90,7 +90,7 @@ export default function Login() {
                   justify={"space-between"}
                   mt="4"
                 >
-                  <Link color={"blue.400"} as="a" href="/register">
+                  <Link href="/register">
                     Are you a new member?
                   </Link>
                 </Stack>

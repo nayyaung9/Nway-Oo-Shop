@@ -1,5 +1,11 @@
 @import url("https://mmwebfonts.comquas.com/fonts/?font=pyidaungsu");
 
+*,
+*:focus,
+*:hover {
+  outline: none;
+}
+
 #__next {
   height: 100%;
 }
@@ -53,5 +59,18 @@ body {
     #f37335
   ); */
 
-  background-color: #fdc830;
+  background-color: #fdbe01;
+}
+
+.nweoo-snacks-header {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.2s ease 0s, background-color 0.2s ease 0s;
+  position: sticky;
+  top: 0px;
+  z-index: 3;
+  left: 0px;
+  right: 0px;
+  background-color: #fff;
+  padding-inline-start: 12px;
+  padding-inline-end: 12px;
 }

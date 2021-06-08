@@ -6,7 +6,6 @@ import { updateShop } from "@/db/index";
 
 const handler = nc();
 
-
 cloudinary.config({
   cloud_name: "dw6xhvlph",
   api_key: "363923182319938",
@@ -21,9 +20,18 @@ handler.delete(async (req, res) => {
     return;
   }
 
-  cloudinary.uploader.destroy("sample", function (result) {
-    console.log(result);
-  });
+  const { imageId } = req.query;
+
+  cloudinary.uploader.destroy(
+    imageId,
+    { resource_type: "image" },
+    function (error, result) {
+      if (error) {
+        console.log("error", error);
+      }
+      console.log(result);
+    }
+  );
 });
 
 export const config = {

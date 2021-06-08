@@ -45,6 +45,7 @@ handler.patch(upload.single("productImage"), async (req, res) => {
 
   if (file64) {
     const image = await cloudinary.uploader.upload(file64.content);
+    console.log('imaes', image);
     productImage = image.secure_url;
   }
 

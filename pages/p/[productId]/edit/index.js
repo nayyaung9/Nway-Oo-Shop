@@ -47,7 +47,6 @@ const EditProduct = ({ data }) => {
 
   const [state, setState] = useState({
     content: "",
-    tags: [],
     hasCategories: true,
     hasChildrenCatelogs: false,
     categoryPath: "",
@@ -123,7 +122,6 @@ const EditProduct = ({ data }) => {
             onSubmit={async (values) => {
               const payload = {
                 ...values,
-                tags: state.tags,
                 content: state.content,
                 social,
                 productImages,
