@@ -1,6 +1,7 @@
 import ProductDetailLayout from "@/components/layout/ProductDetailLayout";
 import React from "react";
 import Head from "next/head";
+import Link from 'next/link';
 import {
   Container,
   Box,
@@ -180,9 +181,11 @@ const ProductDetail = ({ data }) => {
                       <Text ml="3">{product?.shop?.phoneNumber}</Text>
                     </div>
                   </div>
-                  <Button colorScheme="orange" variant="outline" size="sm">
+                  <Link href={`/${product.shop?._id}/${product.shop?.shopname}`}>
+                  <Button colorScheme="yellow" variant="outline" size="sm">
                     Visit Store
                   </Button>
+                  </Link>
                 </div>
               </Container>
             </Box>

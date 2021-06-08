@@ -27,6 +27,7 @@ import { useRouter } from "next/router";
 import { theme } from "@/utils/theme";
 import SearchInput from "../search/SearchInput";
 import { IoPersonOutline, IoSearch } from "react-icons/io5";
+import React from "react";
 
 export default function Header({ isAuth, shop }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -66,10 +67,9 @@ export default function Header({ isAuth, shop }) {
           display={{ base: "center", md: "flex" }}
         >
           <Box>
-            <img
-              src="/default/nweoo-logo.png"
-              style={{ width: 160 }}
-            />
+            <Link href="/">
+              <img src="/default/nweoo-logo.png" style={{ width: 160 }} />
+            </Link>
           </Box>
         </HStack>
         <Box
@@ -128,17 +128,16 @@ export default function Header({ isAuth, shop }) {
               justify={"flex-end"}
               direction={"row"}
             >
-              <IconButton
+              {/* <IconButton
                 aria-label="Person_SignIn"
                 icon={<IoSearch />}
                 display={{ base: "flex", md: "none" }}
-              />
+              /> */}
 
               <Link href="/login">
-                <IconButton
-                  aria-label="Person_SignIn"
-                  icon={<IoPersonOutline />}
-                />
+                <Button leftIcon={<IoPersonOutline />} variant="solid">
+                  Account
+                </Button>
               </Link>
             </Stack>
           )}

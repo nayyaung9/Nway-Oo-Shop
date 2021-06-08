@@ -13,6 +13,7 @@ const Layout = ({ children }) => {
         isAuth={Object.keys(user || {}).length > 1 ? true : false}
         shop={shop}
       />
+      <div style={{ minHeight: 64 }} />
       {children}
       <Footer />
     </React.Fragment>

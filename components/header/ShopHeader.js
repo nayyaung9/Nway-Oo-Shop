@@ -42,14 +42,14 @@ export default function ShopHeader({ isAuth, shop, shopName }) {
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <HStack>
             <IconButton
-              style={{ background: "transparent", color: "#fff" }}
+              style={{ background: "transparent" }}
               size={"md"}
               icon={<ArrowBackIcon />}
               aria-label={"Open Menu"}
               display={{ md: "none" }}
               onClick={() => router.back()}
             />
-            <Heading as="h5" size="md" color="white">
+            <Heading as="h5" size="md">
               {shopName}
             </Heading>
           </HStack>

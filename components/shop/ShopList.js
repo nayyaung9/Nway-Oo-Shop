@@ -1,6 +1,7 @@
 import React from "react";
 import { useSWRInfinite } from "swr";
 import fetcher from "@/lib/fetch";
+import Link from "next/link";
 import {
   Heading,
   Avatar,
@@ -11,7 +12,6 @@ import {
   Text,
   Stack,
   useColorModeValue,
-  Link,
 } from "@chakra-ui/react";
 import { textStringToUrl, capFirstWordFromString } from "@/utils/index";
 import { theme } from "@/utils/theme";
@@ -41,7 +41,9 @@ const ShopList = () => {
           <Heading as="h4" color={theme.secondaryColor} size="md">
             Official Stores{" "}
           </Heading>
-          <Text>See All</Text>
+          <Text>
+            <Link href="/stores">See All</Link>
+          </Text>
         </div>
 
         <div className="scrolling-wrapper-flexbox">
@@ -50,7 +52,7 @@ const ShopList = () => {
             shops.map((shop, i) => (
               <Center className="store-card" key={i}>
                 <Box
-                  maxW={"200px"}
+                  maxW={"180px"}
                   w={"full"}
                   h="100%"
                   bg={useColorModeValue("white", "gray.800")}
@@ -70,7 +72,11 @@ const ShopList = () => {
                   <Flex justify={"center"} mt={-9}>
                     <Avatar
                       size={"xl"}
-                      src={shop?.storeProfile ? shop.storeProfile : "/default/logo.png"}
+                      src={
+                        shop?.storeProfile
+                          ? shop.storeProfile
+                          : "/default/logo.png"
+                      }
                       alt={"Author"}
                       css={{
                         border: "2px solid white",
@@ -90,7 +96,9 @@ const ShopList = () => {
                             shop && textStringToUrl(shop?.shopname)
                           }`}
                         >
-                          {shop ? capFirstWordFromString(shop.shopname) : ""}
+                          <Text noOfLines="1">
+                            {shop ? capFirstWordFromString(shop.shopname) : ""}
+                          </Text>
                         </Link>
                       </Heading>
                       <Text color={"gray.500"} isTruncated>

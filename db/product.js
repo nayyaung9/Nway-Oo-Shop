@@ -68,3 +68,19 @@ export async function fetchLastestProducts(db) {
     .limit(6)
     .toArray();
 }
+
+export async function updateProduct(db, data) {
+  console.log("dt", data);
+  return db
+    .collection("products")
+    .updateOne(
+      { _id: data?.productId },
+      {
+        $set: {
+          ...data,
+        },
+      },
+      { new: true }
+    )
+    .then(({ ops }) => ops);
+}

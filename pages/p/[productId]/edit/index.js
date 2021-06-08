@@ -15,16 +15,15 @@ import {
   Select,
   HStack,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import ProductDetailLayout from "@/components/layout/ProductDetailLayout";
 import { Formik } from "formik";
 import { InputControl, SubmitButton, TextareaControl } from "formik-chakra-ui";
 import MultipleFileUpload from "@/components/MultipleFileUpload/MultipleFileUpload";
-import SocialInputs from "@/components/social/SocialInputs";
 
 import { all } from "@/middlewares/index";
-import { fetchProductById, fetchShopById } from "@/db/index";
-import { numberWithCommas, removeTags } from "@/utils/index";
+import { fetchProductById } from "@/db/index";
 import { SearchIcon } from "@chakra-ui/icons";
 import { theme } from "@/utils/theme";
 import { productValidator } from "@/utils/form-validation";
@@ -38,6 +37,7 @@ const Editor = dynamic(() => import("@/components/editor/Editor"), {
 
 const EditProduct = ({ data }) => {
   const product = JSON.parse(data);
+  const toast = useToast();
 
   const { data: categories } = useParentCategories();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -56,14 +56,11 @@ const EditProduct = ({ data }) => {
   const [productImages, setProductImages] = useState([]);
   const [productImageLoading, setProductImageLoading] = useState(false);
 
-  const [social, setSocial] = useState([
-    {
-      url: "",
-    },
-  ]);
-
   useEffect(() => {
-    setState({ ...state, ...product });
+    setState({
+      ...state,
+      content: product?.content,
+    });
     setProductImages([...product?.productImages]);
   }, []);
 
@@ -97,8 +94,6 @@ const EditProduct = ({ data }) => {
     }
   };
 
-  console.log("t", state);
-
   return (
     <>
       <ProductDetailLayout>
@@ -109,6 +104,7 @@ const EditProduct = ({ data }) => {
           <Formik
             enableReinitialize
             initialValues={{
+              productId: product?._id,
               userId: product?.userId,
               shopId: product?.shopId,
               title: product?.title,
@@ -123,13 +119,35 @@ const EditProduct = ({ data }) => {
               const payload = {
                 ...values,
                 content: state.content,
-                social,
                 productImages,
                 categories: [state.categoryPath],
                 categoryName: state.categoryName,
               };
 
-              console.log("payload", payload);
+              console.log("PP", payload);
+
+              const res = await fetch("/api/products/update", {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload),
+              });
+              if (res.status === 201) {
+                const { updatedProduct } = await res.json();
+                toast({
+                  title: "Product created successfully.",
+                  description: "You will redirect to your product soon.",
+                  status: "success",
+                  duration: 9000,
+                  isClosable: true,
+                });
+                router.push(
+                  `/p/${updatedProduct?._id}/${updatedProduct?.title
+                    .replace(/\s/g, "-")
+                    .toLowerCase()}`
+                );
+              } else {
+                // setErrorMsg("Incorrect username or password. Try again!");
+              }
             }}
           >
             {({ handleSubmit, values, errors }) => (
@@ -193,7 +211,10 @@ const EditProduct = ({ data }) => {
                         </FormHelperText>
                       </FormControl>
 
-                      <div className="flex-between" style={{ alignItems: 'center' }}>
+                      <div
+                        className="flex-between"
+                        style={{ alignItems: "center" }}
+                      >
                         <FormLabel htmlFor="writeUpFile">
                           Product Images
                         </FormLabel>
@@ -284,13 +305,6 @@ const EditProduct = ({ data }) => {
                           }}
                         />
                       </FormControl>
-
-                      <div className="product-image-banner">
-                        <FormControl id="social">
-                          <FormLabel>Social</FormLabel>
-                          <SocialInputs social={social} setSocial={setSocial} />
-                        </FormControl>
-                      </div>
 
                       <SubmitButton bg={theme.secondaryColor} size="sm" mt="4">
                         Create Product

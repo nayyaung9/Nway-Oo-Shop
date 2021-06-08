@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   Box,
   useColorModeValue,
@@ -5,7 +6,6 @@ import {
   Text,
   Stack,
   Image,
-  Link,
 } from "@chakra-ui/react";
 import { capFirstWordFromString, numberWithCommas } from "@/utils/index";
 
@@ -35,7 +35,6 @@ export default function ProductItemCard({ product }) {
             href={`/p/${product?._id}/${product.title
               .replace(/\s/g, "-")
               .toLowerCase()}`}
-            className="linkHref"
           >
             {capFirstWordFromString(product?.title)}
           </Link>

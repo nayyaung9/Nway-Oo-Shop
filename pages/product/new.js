@@ -19,7 +19,6 @@ import {
   HStack,
 } from "@chakra-ui/react";
 import { InputControl, SubmitButton, TextareaControl } from "formik-chakra-ui";
-import SocialInputs from "@/components/social/SocialInputs";
 import MultipleFileUpload from "@/components/MultipleFileUpload/MultipleFileUpload";
 import { Formik } from "formik";
 
@@ -63,12 +62,6 @@ const CreateProduct = () => {
   const [productImages, setProductImages] = useState([]);
   const [productImageLoading, setProductImageLoading] = useState(false);
 
-  const [social, setSocial] = useState([
-    {
-      url: "",
-    },
-  ]);
-
   const onSelectParentCategory = async (e) => {
     const category = e.target.value;
 
@@ -102,6 +95,8 @@ const CreateProduct = () => {
   return (
     <>
       <ProductNewHeader />
+      <div style={{ minHeight: 64 }} />
+
       <Head>
         <title>Create Product | Nweoo Snaks</title>
       </Head>
@@ -113,7 +108,7 @@ const CreateProduct = () => {
             payment: "",
             price: "",
             estimatedPrice: 0,
-            customerService: '',
+            customerService: "",
           }}
           validationSchema={productValidator}
           onSubmit={async (values) => {
@@ -121,7 +116,6 @@ const CreateProduct = () => {
               ...values,
               tags: state.tags,
               content: state.content,
-              social,
               userId: user?._id,
               shopId: shop?._id,
               productImages,
@@ -149,7 +143,13 @@ const CreateProduct = () => {
                   .toLowerCase()}`
               );
             } else {
-              // setErrorMsg("Incorrect username or password. Try again!");
+              toast({
+                title: "Product edited failed.",
+                description: "Please try agin later",
+                status: "error",
+                duration: 9000,
+                isClosable: true,
+              });
             }
           }}
         >
@@ -164,8 +164,11 @@ const CreateProduct = () => {
                   </FormHelperText>
                 </FormControl>
 
+                <FormLabel>Select Product Category</FormLabel>
+
                 <HStack>
                   <FormControl id="catelogs" isRequired>
+
                     <Select
                       placeholder="Select Category"
                       onChange={onSelectParentCategory}
@@ -287,20 +290,12 @@ const CreateProduct = () => {
                     <FormControl id="customerService" isRequired>
                       <TextareaControl
                         name="customerService"
-                        label="CUstomer Service"
+                        label="Customer Service"
                         textareaProps={{
                           placeholder: "Type how you service for your customer",
                         }}
                       />
                     </FormControl>
-
-                    <div className="product-image-banner">
-                      <FormControl id="social">
-                        <FormLabel>Social</FormLabel>
-                        <SocialInputs social={social} setSocial={setSocial} />
-                      </FormControl>
-                    </div>
-
                     <SubmitButton bg={theme.secondaryColor} size="sm" mt="4">
                       Create Product
                     </SubmitButton>

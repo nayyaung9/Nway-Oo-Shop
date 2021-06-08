@@ -37,91 +37,89 @@ export default function ProductDetailHeader({ isAuth, shop, productName }) {
   };
 
   return (
-    <>
-      <Box boxShadow="sm" px={4} className="header-boxshadow">
-        <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
-          <HStack>
-            <IconButton
-              style={{ background: "transparent", color: "#fff" }}
-              size={"md"}
-              icon={<ArrowBackIcon />}
-              aria-label={"Open Menu"}
-              display={{ md: "none" }}
-              onClick={() => router.back()}
-            />
-            <Heading as="h5" size="sm" color="white" noOfLines="1">
-              {productName}
-            </Heading>
-          </HStack>
-          <Flex alignItems={"center"}>
-            {isAuth ? (
-              <Menu>
-                <MenuButton
-                  as={Button}
-                  rounded={"full"}
-                  variant={"link"}
-                  cursor={"pointer"}
-                >
-                  <Avatar
-                    size={"sm"}
-                    src={
-                      shop?.storeProfile
-                        ? shop?.storeProfile
-                        : "./default/logo.png"
-                    }
-                  />
-                </MenuButton>
-                <MenuList>
-                  <MenuItem
-                    as="a"
-                    href={`${shop?._id}/${shop?.shopname
-                      ?.replace(/\s/g, "-")
-                      .toLowerCase()}`}
-                  >
-                    Your Shop
-                  </MenuItem>
-                  <MenuItem as="a" href="/product/new">
-                    Create Product
-                  </MenuItem>
-                  <MenuDivider />
-                  <MenuItem onClick={onLogout}>Logout</MenuItem>
-                </MenuList>
-              </Menu>
-            ) : (
-              <Stack
-                flex={{ base: 1, md: 0 }}
-                justify={"flex-end"}
-                direction={"row"}
-                spacing={6}
+    <header className="nweoo-snacks-header">
+      <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
+        <HStack>
+          <IconButton
+            style={{ background: "transparent"}}
+            size={"md"}
+            icon={<ArrowBackIcon />}
+            aria-label={"Open Menu"}
+            display={{ md: "none" }}
+            onClick={() => router.back()}
+          />
+          <Heading as="h5" size="sm" noOfLines="1">
+            {productName}
+          </Heading>
+        </HStack>
+        <Flex alignItems={"center"}>
+          {isAuth ? (
+            <Menu>
+              <MenuButton
+                as={Button}
+                rounded={"full"}
+                variant={"link"}
+                cursor={"pointer"}
               >
-                <Button
-                  as={"a"}
-                  fontSize={"sm"}
-                  fontWeight={400}
-                  variant={"link"}
-                  href="/login"
-                >
-                  Sign In
-                </Button>
-                <Button
-                  display={{ base: "none", md: "inline-flex" }}
-                  fontSize={"sm"}
-                  fontWeight={600}
-                  color={"white"}
-                  bg={"pink.400"}
+                <Avatar
+                  size={"sm"}
+                  src={
+                    shop?.storeProfile
+                      ? shop?.storeProfile
+                      : "./default/logo.png"
+                  }
+                />
+              </MenuButton>
+              <MenuList>
+                <MenuItem
                   as="a"
-                  href="/register"
-                  _hover={{
-                    bg: "pink.300",
-                  }}
+                  href={`/${shop?._id}/${shop?.shopname
+                    ?.replace(/\s/g, "-")
+                    .toLowerCase()}`}
                 >
-                  Sign Up
-                </Button>
-              </Stack>
-            )}
-          </Flex>
+                  Your Shop
+                </MenuItem>
+                <MenuItem as="a" href="/product/new">
+                  Create Product
+                </MenuItem>
+                <MenuDivider />
+                <MenuItem onClick={onLogout}>Logout</MenuItem>
+              </MenuList>
+            </Menu>
+          ) : (
+            <Stack
+              flex={{ base: 1, md: 0 }}
+              justify={"flex-end"}
+              direction={"row"}
+              spacing={6}
+            >
+              <Button
+                as={"a"}
+                fontSize={"sm"}
+                fontWeight={400}
+                variant={"link"}
+                href="/login"
+              >
+                Sign In
+              </Button>
+              <Button
+                display={{ base: "none", md: "inline-flex" }}
+                fontSize={"sm"}
+                fontWeight={600}
+                color={"white"}
+                bg={"pink.400"}
+                as="a"
+                href="/register"
+                _hover={{
+                  bg: "pink.300",
+                }}
+              >
+                Sign Up
+              </Button>
+            </Stack>
+          )}
         </Flex>
-      </Box>
-    </>
+      </Flex>
+    </header>
   );
 }

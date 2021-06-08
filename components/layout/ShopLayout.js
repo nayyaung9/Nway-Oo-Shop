@@ -17,6 +17,7 @@ const ShopLayout = ({ children, shopName }) => {
         isAuth={Object.keys(user || {}).length > 1 ? true : false}
         shop={shop}
       />
+
       {children}
     </React.Fragment>
   );
