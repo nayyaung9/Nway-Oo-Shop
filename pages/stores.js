@@ -39,9 +39,14 @@ const StoreList = () => {
         <meta property="og:title" content="Nweoo - Official Stores" />
         <meta
           property="og:description"
-          content="Join Nweoo Official Stores and Sell your homemade product/"
+          content="Join Nweoo Official Stores and Sell your homemade product"
         />
-        <meta property="og:image" content="https://nweoo-snacks.vercel.app/default/logo.png" />
+        <meta property="fb:app_id" content="606204293693213" />
+
+        <meta
+          property="og:image"
+          content="https://images.unsplash.com/photo-1600267175161-cfaa711b4a81?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+        />
       </Head>
       <StoreListBanner />
       <Container maxW={"7xl"} mt="4">
