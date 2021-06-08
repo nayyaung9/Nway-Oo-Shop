@@ -22,6 +22,7 @@
     "datauri": "^3.0.0",
     "dotenv": "^10.0.0",
     "express-session": "^1.17.2",
+    "firebase": "^8.6.5",
     "formik": "^2.2.8",
     "formik-chakra-ui": "^1.4.7",
     "framer-motion": "^4.0.3",
