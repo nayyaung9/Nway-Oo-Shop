@@ -1,12 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { SearchIcon } from "@chakra-ui/icons";
+import { useRouter } from "next/router";
 
 const SearchInput = () => {
+  const router = useRouter();
+  const [searchInput, setSearchInput] = useState("");
   return (
     <SearchArea>
-      <SearchInputTerm type="text" placeholder="What are you looking for?" />
-      <SearchButton type="submit">
+      <SearchInputTerm
+        type="text"
+        placeholder="What are you looking for?"
+        value={searchInput}
+        onChange={(e) => setSearchInput(e.target.value)}
+      />
+      <SearchButton
+        type="button"
+        onClick={() =>
+          router.push({
+            pathname: "/search",
+            query: { name: searchInput },
+          })
+        }
+      >
         <SearchIcon />
       </SearchButton>
     </SearchArea>

@@ -58,7 +58,7 @@ const StoreList = () => {
         {Array.isArray(shops) &&
           shops.length > 1 &&
           shops.map((shop, i) => (
-            <Card>
+            <Card key={i}>
               <CardHorizontal>
                 <div class="img-square-wrapper">
                   <Avatar

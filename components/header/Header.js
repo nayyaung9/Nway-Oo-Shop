@@ -24,9 +24,8 @@ import {
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
-import { theme } from "@/utils/theme";
 import SearchInput from "../search/SearchInput";
-import { IoPersonOutline, IoSearch } from "react-icons/io5";
+import { IoPersonOutline } from "react-icons/io5";
 import React from "react";
 
 export default function Header({ isAuth, shop }) {
@@ -128,16 +127,11 @@ export default function Header({ isAuth, shop }) {
               justify={"flex-end"}
               direction={"row"}
             >
-              {/* <IconButton
-                aria-label="Person_SignIn"
-                icon={<IoSearch />}
-                display={{ base: "flex", md: "none" }}
-              /> */}
-
               <Link href="/login">
-                <Button leftIcon={<IoPersonOutline />} variant="solid">
-                  Account
-                </Button>
+                <IconButton
+                  aria-label="Person_SignIn"
+                  icon={<IoPersonOutline />}
+                />
               </Link>
             </Stack>
           )}

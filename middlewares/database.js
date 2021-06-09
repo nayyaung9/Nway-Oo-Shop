@@ -9,6 +9,9 @@ export async function createIndexes(db) {
       .collection("tokens")
       .createIndex({ expireAt: -1 }, { expireAfterSeconds: 0 }),
     db.collection("users").createIndex({ email: 1 }, { unique: true }),
+    db
+      .collection("products")
+      .createIndex({ title: "text", content: "text" }),
   ]);
   indexesCreated = true;
 }

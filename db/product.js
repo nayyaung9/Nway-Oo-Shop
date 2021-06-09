@@ -70,7 +70,6 @@ export async function fetchLastestProducts(db) {
 }
 
 export async function updateProduct(db, data) {
-  console.log("dt", data);
   return db
     .collection("products")
     .updateOne(
@@ -83,4 +82,13 @@ export async function updateProduct(db, data) {
       { new: true }
     )
     .then(({ ops }) => ops);
+}
+
+export async function searchProductByName(db, data) {
+  return db
+    .collection("products")
+    .find({ $text: { $search: data } })
+    .sort({ createdAt: -1 })
+    .limit(6)
+    .toArray();
 }
