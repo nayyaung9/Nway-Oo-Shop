@@ -63,3 +63,12 @@ body {
   padding-inline-start: 12px;
   padding-inline-end: 12px;
 }
+
+
+#nprogress {
+  position: relative !important;
+  z-index: 9999999 !important;
+}
+#nprogress .bar {
+  background: #fed700 !important;
+}

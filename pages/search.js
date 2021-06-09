@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { Heading, Image, Text, Center, Container } from "@chakra-ui/react";
 import { textStringToUrl, capFirstWordFromString } from "@/utils/index";
 import Link from "next/link";
+import ProductSkeleton from "@/components/skeleton/ProductSkeleton";
 
 const Search = () => {
   const router = useRouter();
@@ -35,12 +36,15 @@ const Search = () => {
     }
   }, [name]);
 
-  console.log(products);
-
   return (
     <Layout>
       {loading ? (
-        <div>loading</div>
+        <React.Fragment>
+          <ProductSkeleton />
+          <ProductSkeleton />
+          <ProductSkeleton />
+          <ProductSkeleton />
+        </React.Fragment>
       ) : (
         <React.Fragment>
           <Container maxW={"7xl"} mt="4">
