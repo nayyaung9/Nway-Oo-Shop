@@ -1,5 +1,6 @@
 import Layout from "@/components/layout/Layout";
 import React, { useEffect, useState } from "react";
+import Head from 'next/head';
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import { Heading, Image, Text, Center, Container } from "@chakra-ui/react";
@@ -47,6 +48,9 @@ const Search = () => {
         </React.Fragment>
       ) : (
         <React.Fragment>
+          <Head>
+            <title>Nweoo Shop - {name}</title>
+          </Head>
           <Container maxW={"7xl"} mt="4">
             <Heading as="h5" size="md" mb="8" noOfLines="1">
               {name}

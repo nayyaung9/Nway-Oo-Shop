@@ -5,15 +5,11 @@ import { useRouter } from "next/router";
 
 const SearchInput = () => {
   const router = useRouter();
-  const [searchInput, setSearchInput] = useState("");
+  const [searchInput, setSearchInput] = useState('');
   return (
     <SearchArea>
-      <SearchInputTerm
-        type="text"
-        placeholder="What are you looking for?"
-        value={searchInput}
-        onChange={(e) => setSearchInput(e.target.value)}
-      />
+      <SearchInputTerm type="text" placeholder="What are you looking for?" 
+      value={searchInput} onChange={e => setSearchInput(e.target.value)} />
       <SearchButton
         type="button"
         onClick={() =>
