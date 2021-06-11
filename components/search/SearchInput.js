@@ -3,11 +3,11 @@ import styled from "styled-components";
 import { SearchIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
 
-const SearchInput = () => {
+const SearchInput = ({ width }) => {
   const router = useRouter();
   const [searchInput, setSearchInput] = useState('');
   return (
-    <SearchArea>
+    <SearchArea style={{ width: width ? width: '40%' }}>
       <SearchInputTerm type="text" placeholder="What are you looking for?" 
       value={searchInput} onChange={e => setSearchInput(e.target.value)} />
       <SearchButton
@@ -26,7 +26,6 @@ const SearchInput = () => {
 };
 
 const SearchArea = styled.div`
-  width: 40%;
   position: relative;
 `;
 

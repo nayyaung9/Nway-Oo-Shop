@@ -12,7 +12,6 @@ import {
   MenuItem,
   MenuDivider,
   useDisclosure,
-  useColorModeValue,
   Stack,
   Drawer,
   DrawerBody,
@@ -21,6 +20,8 @@ import {
   DrawerOverlay,
   DrawerContent,
   DrawerCloseButton,
+  List,
+  ListItem,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
@@ -39,12 +40,7 @@ export default function Header({ isAuth, shop }) {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
     });
-    console.log("res", res);
-    if (res.status === 204) {
-      router.reload();
-    } else {
-      // setErrorMsg("Incorrect username or password. Try again!");
-    }
+    if (res.status === 204) router.reload();
   };
 
   return (
@@ -143,8 +139,23 @@ export default function Header({ isAuth, shop }) {
           <DrawerOverlay />
           <DrawerContent>
             <DrawerCloseButton />
-            <DrawerHeader>{`drawer contents`}</DrawerHeader>
-            <DrawerBody>Menu will come here</DrawerBody>
+            <DrawerHeader>
+              <img src="/default/nweoo-logo.png" style={{ width: 160 }} />
+            </DrawerHeader>
+            <DrawerBody>
+              <Box width="full" style={{ width: "100%" }}>
+                <SearchInput width="100%" />
+              </Box>
+              <List mt="12">
+                <Link href="/stores">
+                  <ListItem>Official Stores</ListItem>
+                </Link>
+                <a href="https://www.facebook.com/nweoosnacks/">
+                  <ListItem>Contact Us</ListItem>
+                </a>
+              </List>
+            </DrawerBody>
+            <DrawerFooter>Provided By Nweoo Shop</DrawerFooter>
           </DrawerContent>
         </Drawer>
       ) : null}
