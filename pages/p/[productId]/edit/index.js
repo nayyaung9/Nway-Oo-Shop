@@ -30,6 +30,7 @@ import { productValidator } from "@/utils/form-validation";
 import dynamic from "next/dynamic";
 import { useParentCategories } from "@/hooks/index";
 import ImageSliderEdit from "@/components/image/ImageSliderEdit";
+import { useRouter } from "next/router";
 
 const Editor = dynamic(() => import("@/components/editor/Editor"), {
   ssr: false,
@@ -37,7 +38,9 @@ const Editor = dynamic(() => import("@/components/editor/Editor"), {
 
 const EditProduct = ({ data }) => {
   const product = JSON.parse(data);
+
   const toast = useToast();
+  const router = useRouter();
 
   const { data: categories } = useParentCategories();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -323,12 +326,20 @@ const EditProduct = ({ data }) => {
 
 export async function getServerSideProps(context) {
   await all.run(context.req, context.res);
+
+  const { user } = context.req;
   const product = await fetchProductById(
     context.req.db,
     context.params.productId
   );
 
   if (!product) context.res.statusCode = 404;
+
+  if (product?.userId !== user?._id) {
+    context.res.statusCode = 302;
+    context.res.setHeader("Location", "/");
+    context.res.end();
+  }
 
   return { props: { data: JSON.stringify(product) } };
 }

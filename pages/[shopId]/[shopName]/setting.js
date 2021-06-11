@@ -267,8 +267,18 @@ const ShopSetting = ({ data }) => {
 
 export async function getServerSideProps(context) {
   await all.run(context.req, context.res);
+
+  const { user } = context.req;
+
   const shop = await fetchShopById(context.req.db, context.params.shopId);
   if (!shop) context.res.statusCode = 404;
+
+  if (shop?.shopOwnerId !== user?._id) {
+    context.res.statusCode = 302;
+    context.res.setHeader("Location", "/");
+    context.res.end();
+  }
+
   return { props: { data: shop } };
 }
 

@@ -46,14 +46,13 @@ export default function Login() {
           }}
           validationSchema={loginValidator}
           onSubmit={async (values) => {
-            const res = await fetch("/api/auth", {
+            const res = await fetch("/api/auth/login", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify(values),
             });
             if (res.status === 200) {
               const userObj = await res.json();
-              console.log("ans", userObj);
               mutate(userObj);
             } else {
               setErrorMsg("Incorrect username or password. Try again!");

@@ -180,7 +180,7 @@ export default function Register() {
                 password,
               };
 
-              const res = await fetch("/api/user", {
+              const res = await fetch("/api/auth/register", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(userPayload),

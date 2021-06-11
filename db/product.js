@@ -46,7 +46,6 @@ export async function createProduct(
       price,
       social,
       userId,
-      tags,
       shopId,
       productImages,
       delivery,

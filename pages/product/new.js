@@ -52,7 +52,6 @@ const CreateProduct = () => {
 
   const [state, setState] = useState({
     content: "",
-    tags: [],
     hasCategories: false,
     hasChildrenCatelogs: false,
     categoryPath: "",
@@ -114,7 +113,6 @@ const CreateProduct = () => {
           onSubmit={async (values) => {
             const payload = {
               ...values,
-              tags: state.tags,
               content: state.content,
               userId: user?._id,
               shopId: shop?._id,
