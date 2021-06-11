@@ -20,7 +20,7 @@ export default function ProductItemCard({ product }) {
     >
       <Box rounded={"lg"} height={"180px"}>
         <Image
-          height={180}
+          height="full"
           width={"full"}
           objectFit={"contain"}
           src={product?.productImages[0]}
