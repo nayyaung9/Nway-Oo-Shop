@@ -12,4 +12,10 @@ handler.get(async (req, res) => {
   res.send({ shops });
 });
 
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
 export default handler;
