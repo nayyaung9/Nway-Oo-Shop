@@ -13,7 +13,7 @@ export default function ProductItemCard({ product }) {
   return (
     <Box
       h="full"
-      maxW="100%"
+      maxW="189px"
       w={"189px"}
       minH="189px"
       bg={useColorModeValue("white", "gray.800")}

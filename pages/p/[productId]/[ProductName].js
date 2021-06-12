@@ -1,7 +1,7 @@
 import ProductDetailLayout from "@/components/layout/ProductDetailLayout";
 import React from "react";
 import Head from "next/head";
-import Link from 'next/link';
+import Link from "next/link";
 import {
   Container,
   Box,
@@ -181,31 +181,35 @@ const ProductDetail = ({ data }) => {
                       <Text ml="3">{product?.shop?.phoneNumber}</Text>
                     </div>
                   </div>
-                  <Link href={`/${product.shop?._id}/${product.shop?.shopname}`}>
-                  <Button colorScheme="yellow" variant="outline" size="sm">
-                    Visit Store
-                  </Button>
+                  <Link
+                    href={`/${product.shop?._id}/${product.shop?.shopname}`}
+                  >
+                    <Button colorScheme="yellow" variant="outline" size="sm">
+                      Visit Store
+                    </Button>
                   </Link>
                 </div>
               </Container>
             </Box>
 
-            <Box pt={2} pb={2} bg="white" mt="3">
-              <Container maxW="container.lg">
-                <Heading
-                  as="h4"
-                  size="sm"
-                  color={theme.secondaryColor}
-                  size="md"
-                  mb="3"
-                >
-                  Customer Service
-                </Heading>
-                <Text fontSize="md" color="gray.700">
-                  {product?.cutomerService ? product?.cutomerService : ""}
-                </Text>{" "}
-              </Container>
-            </Box>
+            {product?.cutomerService && (
+              <Box pt={2} pb={2} bg="white" mt="3">
+                <Container maxW="container.lg">
+                  <Heading
+                    as="h4"
+                    size="sm"
+                    color={theme.secondaryColor}
+                    size="md"
+                    mb="3"
+                  >
+                    Customer Service
+                  </Heading>
+                  <Text fontSize="md" color="gray.700">
+                    {product?.cutomerService ? product?.cutomerService : ""}
+                  </Text>{" "}
+                </Container>
+              </Box>
+            )}
 
             <Box pt={2} pb={2} bg="white" mt="3">
               <Container maxW="container.lg">
