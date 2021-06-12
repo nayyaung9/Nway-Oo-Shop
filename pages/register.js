@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Link from 'next/link';
+import Link from "next/link";
 import Head from "next/head";
 import {
   Box,
@@ -169,11 +169,18 @@ export default function Register() {
               email: "",
               password: "",
               phoneNumber: "",
+              fbLink: "",
             }}
             validationSchema={registerValidator}
             onSubmit={async (values) => {
-              const { shopName, email, fullName, password, phoneNumber } =
-                values;
+              const {
+                fbLink,
+                shopName,
+                email,
+                fullName,
+                password,
+                phoneNumber,
+              } = values;
               const userPayload = {
                 email,
                 fullname: fullName,
@@ -190,6 +197,7 @@ export default function Register() {
                 const shopPayload = {
                   shopname: shopName,
                   phoneNumber,
+                  fbLink,
                   shopOwnerId: userObj?.user?._id,
                 };
                 const createShop = await fetch("/api/shop", {

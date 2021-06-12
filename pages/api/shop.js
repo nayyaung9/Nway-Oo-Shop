@@ -7,12 +7,13 @@ const handler = nc();
 handler.use(all);
 
 handler.post(async (req, res) => {
-  const { shopname, phoneNumber, shopOwnerId } = req.body;
-  
+  const { shopname, phoneNumber, shopOwnerId, fbLink } = req.body;
+
   const newShop = await registerShop(req.db, {
     shopname,
     phoneNumber,
     shopOwnerId,
+    fbLink,
   });
   res.status(201).json({ newShop });
 });

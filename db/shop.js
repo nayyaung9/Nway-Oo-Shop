@@ -24,13 +24,17 @@ export async function fetchAllShops(db) {
     .limit(10)
     .toArray();
 }
-export async function registerShop(db, { shopname, phoneNumber, shopOwnerId }) {
+export async function registerShop(
+  db,
+  { shopname, phoneNumber, fbLink, shopOwnerId }
+) {
   return db
     .collection("shops")
     .insertOne({
       _id: nanoid(12),
       shopname,
       phoneNumber,
+      fbLink,
       shopOwnerId,
       isShopVerify: false,
       createdAt: new Date().toString(),

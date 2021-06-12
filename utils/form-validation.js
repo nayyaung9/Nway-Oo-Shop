@@ -31,6 +31,7 @@ export const registerValidator = yup.object().shape({
   passwordConfirmation: yup
     .string()
     .oneOf([yup.ref("password"), null], "Passwords must match"),
+  fbLink: yup.string().required("Please provide your facebook page link"),
 });
 
 export const loginValidator = yup.object().shape({
