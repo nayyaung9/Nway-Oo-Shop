@@ -12,4 +12,10 @@ handler.get(async (req, res) => {
   res.json({ shops: getUnVerifyShops });
 });
 
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
 export default handler;
