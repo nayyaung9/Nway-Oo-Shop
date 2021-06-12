@@ -32,6 +32,7 @@
     "nanoid": "^3.1.23",
     "next": "9.5.5",
     "next-connect": "^0.10.1",
+    "next-share": "^0.6.0",
     "nprogress": "^0.2.0",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",

@@ -22,10 +22,10 @@ import { numberWithCommas, removeTags } from "@/utils/index";
 import { SearchIcon } from "@chakra-ui/icons";
 import { theme } from "@/utils/theme";
 import RelatedProductList from "@/components/products/RelatedProductList";
+import { FacebookShareButton, FacebookIcon } from "next-share";
 
 const ProductDetail = ({ data }) => {
   const product = JSON.parse(data);
-  console.log("ps", product);
   return (
     <ProductDetailLayout productName={product?.title}>
       <Head>
@@ -70,12 +70,20 @@ const ProductDetail = ({ data }) => {
                       product?.estimatedPrice ? product?.estimatedPrice : 0
                     )}
                   </Heading>
-                  <IconButton
-                    style={{ background: "transparent" }}
-                    aria-label="Call Segun"
-                    size="sm"
-                    icon={<SearchIcon />}
-                  />
+
+                  <FacebookShareButton
+                    url={`https://nweoo-snacks.vercel.app/p/${
+                      product ? product._id : ""
+                    }/${
+                      product
+                        ? product.title?.replace(/\s/g, "-").toLowerCase()
+                        : ""
+                    }`}
+                    quote={product ? removeTags(product.content) : ""}
+                    hashtag={"#nweoo_shop"}
+                  >
+                    <FacebookIcon size={32} round />
+                  </FacebookShareButton>
                 </div>
 
                 <Text fontSize="md" color="gray.700">
