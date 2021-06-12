@@ -89,7 +89,7 @@ export default function Header({ isAuth, shop }) {
                   src={
                     shop?.storeProfile
                       ? shop?.storeProfile
-                      : "./default/shop-default-profile.png"
+                      : "./default/logo.png"
                   }
                 />
               </MenuButton>

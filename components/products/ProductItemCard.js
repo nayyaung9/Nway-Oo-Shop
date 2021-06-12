@@ -14,19 +14,17 @@ export default function ProductItemCard({ product }) {
     <Box
       h="full"
       maxW="100%"
-      w={"full"}
+      w={"189px"}
+      minH="189px"
       bg={useColorModeValue("white", "gray.800")}
       rounded={"lg"}
     >
-      <Box rounded={"lg"} height={"180px"}>
+      <Box height={"180px"}>
         <Image
           height="full"
           width={"full"}
-          objectFit={"contain"}
+          objectFit={"center"}
           src={product?.productImages[0]}
-          // borderRadius="md"
-          borderTopLeftRadius="md"
-          borderTopRightRadius="md"
         />
       </Box>
       <Stack p={2}>
