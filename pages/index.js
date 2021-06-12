@@ -30,6 +30,20 @@ export default function Home() {
     <Layout>
       <Head>
         <title>Newoo Snacks</title>
+        <meta
+          property="og:url"
+          content={`https://nweoo-snacks.vercel.app/`}
+        />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:title"
+          content={"Nweoo Snacks"}
+        />
+        <meta
+          property="og:description"
+          content="Nweoo Snacks is a small ecommerce website that provides CDMers and small home business"
+        />
+        <meta property="og:image" content="" />
       </Head>
       <div style={{ background: theme.bgGrayColor }}>
         <ShopList />

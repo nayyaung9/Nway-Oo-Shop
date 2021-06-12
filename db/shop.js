@@ -20,7 +20,6 @@ export async function fetchAllShops(db) {
   return db
     .collection("shops")
     .find()
-    .sort({ createdAt: -1 })
     .limit(10)
     .toArray();
 }
