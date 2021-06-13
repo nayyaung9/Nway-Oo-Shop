@@ -16,6 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
+import Link from 'next/link';
 
 export default function ShopHeader({ isAuth, shop, shopName }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -83,14 +84,10 @@ export default function ShopHeader({ isAuth, shop, shopName }) {
                   <MenuItem as="a" href="/product/new">
                     Create Product
                   </MenuItem>
-                  <MenuItem
-                    as="a"
-                    href={`/${shop && shop._id}/${
-                      shop && shop.shopname.replace(/\s/g, "-").toLowerCase()
-                    }/setting`}
-                  >
-                    Store Setting
-                  </MenuItem>
+                  <Link href="/dashboard">
+                    <MenuItem>Dashboard</MenuItem>
+                  </Link>
+
                   <MenuDivider />
                   <MenuItem onClick={onLogout}>Logout</MenuItem>
                 </MenuList>

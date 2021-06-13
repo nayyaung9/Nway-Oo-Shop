@@ -36,7 +36,7 @@ export default function Header({ isAuth, shop }) {
   const onLogout = async (e) => {
     e.preventDefault();
 
-    const res = await fetch("/api/auth", {
+    const res = await fetch("/api/auth/logout", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
     });
@@ -105,14 +105,10 @@ export default function Header({ isAuth, shop }) {
                 <MenuItem as="a" href="/product/new">
                   Create Product
                 </MenuItem>
-                <MenuItem
-                  as="a"
-                  href={`/${shop && shop._id}/${
-                    shop && shop.shopname.replace(/\s/g, "-").toLowerCase()
-                  }/setting`}
-                >
-                  Store Setting
-                </MenuItem>
+                <Link href="/dashboard">
+                  <MenuItem>Dashboard</MenuItem>
+                </Link>
+
                 <MenuDivider />
                 <MenuItem onClick={onLogout}>Logout</MenuItem>
               </MenuList>

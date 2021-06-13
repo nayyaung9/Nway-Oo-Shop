@@ -18,7 +18,7 @@ import {
   fetchProductsByShop,
 } from "@/db/index";
 import ProductDetailImageSlider from "@/components/products/ProductDetailImageSlider";
-import { numberWithCommas, removeTags } from "@/utils/index";
+import { numberWithCommas, removeTags, textStringToUrl } from "@/utils/index";
 import { SearchIcon } from "@chakra-ui/icons";
 import { theme } from "@/utils/theme";
 import RelatedProductList from "@/components/products/RelatedProductList";
@@ -190,7 +190,7 @@ const ProductDetail = ({ data }) => {
                     </div>
                   </div>
                   <Link
-                    href={`/${product.shop?._id}/${product.shop?.shopname}`}
+                    href={`/${product.shop?._id}/${textStringToUrl(product.shop?.shopname)}`}
                   >
                     <Button colorScheme="yellow" variant="outline" size="sm">
                       Visit Store

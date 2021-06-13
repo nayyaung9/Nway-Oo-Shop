@@ -46,7 +46,7 @@ const ShopSetting = ({ data }) => {
       if (res.status === 200) {
         setState({ ...state, storeProfileLoading: false });
         toast({
-          title: "Shop Profile Uploaded.",
+          title: "Shop Profile Uploaded. Please reload the page",
           status: "success",
           duration: 9000,
           isClosable: true,
@@ -83,7 +83,7 @@ const ShopSetting = ({ data }) => {
       if (res.status === 200) {
         setState({ ...state, storeCoverPhotoLoading: false });
         toast({
-          title: "Shop Cover Image Uploaded.",
+          title: "Shop Cover Image Uploaded. Please reload the page",
           status: "success",
           duration: 9000,
           isClosable: true,
