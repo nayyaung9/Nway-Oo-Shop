@@ -15,17 +15,21 @@ import {
   TabPanels,
   Tab,
   TabPanel,
+  Button,
 } from "@chakra-ui/react";
 import { useCurrentUser } from "@/hooks/index";
 import ProductGridList from "@/components/products/ProductGridList";
 import ShopLayout from "@/components/layout/ShopLayout";
 import moment from "moment";
+import { PhoneIcon } from "@chakra-ui/icons";
 
 const ShopName = ({ data }) => {
   const [user] = useCurrentUser();
   const shop = JSON.parse(data);
   const { products } = shop;
   const [shopTab, setShopTab] = useState(0);
+
+  console.log(shop);
 
   return (
     <ShopLayout shopName={shop ? shop.shopname : "-"}>
@@ -147,11 +151,23 @@ const ShopName = ({ data }) => {
               <Tab>Contact</Tab>
             </TabList>
             <TabPanels>
-              <TabPanel>
+              <TabPanel p="0" pt="4">
                 <ProductGridList products={products} />
               </TabPanel>
               <TabPanel>No News Available</TabPanel>
-              <TabPanel>{shop?.phoneNumber}</TabPanel>
+              <TabPanel>
+                <PhoneIcon /> {shop?.phoneNumber}
+                <br />
+                {shop?.fbLink ? (
+                  <a href={shop?.fbLink}>
+                    <Button mt="4" colorScheme="facebook" size="sm">
+                      Contact Seller on Facebook
+                    </Button>
+                  </a>
+                ) : (
+                  <span>Seller does not provide facebook page yet</span>
+                )}
+              </TabPanel>
             </TabPanels>
           </Tabs>
         </Container>

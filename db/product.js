@@ -64,7 +64,7 @@ export async function fetchLastestProducts(db) {
     .collection("products")
     .find()
     .sort({ createdAt: -1 })
-    .limit(6)
+    .limit(8)
     .toArray();
 }
 

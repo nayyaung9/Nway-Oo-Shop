@@ -116,6 +116,8 @@ const CreateProduct = () => {
               content: state.content,
               userId: user?._id,
               shopId: shop?._id,
+              // userId: '62yGi9A8O-0a',
+              // shopId: 'TQIF5QDfngrt',
               productImages,
               categories: [state.categoryPath],
               categoryName: state.categoryName,

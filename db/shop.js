@@ -21,7 +21,7 @@ export async function fetchAllShops(db) {
     .collection("shops")
     .find()
     .sort({ createdAt: -1 })
-    .limit(10)
+    .limit(20)
     .toArray();
 }
 export async function registerShop(

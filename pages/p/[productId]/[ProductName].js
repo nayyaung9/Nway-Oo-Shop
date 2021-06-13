@@ -9,7 +9,6 @@ import {
   Avatar,
   Button,
   Text,
-  IconButton,
 } from "@chakra-ui/react";
 import { all } from "@/middlewares/index";
 import {
@@ -22,7 +21,9 @@ import { numberWithCommas, removeTags, textStringToUrl } from "@/utils/index";
 import { SearchIcon } from "@chakra-ui/icons";
 import { theme } from "@/utils/theme";
 import RelatedProductList from "@/components/products/RelatedProductList";
-import { FacebookShareButton, FacebookIcon } from "next-share";
+import { FacebookShareButton } from "next-share";
+
+import { IoShareOutline } from "react-icons/io5";
 
 const ProductDetail = ({ data }) => {
   const product = JSON.parse(data);
@@ -82,30 +83,41 @@ const ProductDetail = ({ data }) => {
                     quote={product ? removeTags(product.content) : ""}
                     hashtag={"#nweoo_shop"}
                   >
-                    <FacebookIcon size={32} round />
+                    {/* <FacebookIcon size={32} round /> */}
+                    <Button size="sm" bg="transparent">
+                      <IoShareOutline />
+                    </Button>
                   </FacebookShareButton>
                 </div>
 
                 <Text fontSize="md" color="gray.700">
                   {product?.title}
                 </Text>
+
+                <a href={product?.shop?.fbLink}>
+                  <Button isFullWidth size="sm" mt="4" colorScheme="orange">
+                    Order
+                  </Button>
+                </a>
               </Container>
             </Box>
 
-            <Box pt={2} pb={2} bg="white" mt="3">
-              <Container maxW="container.lg">
-                <Heading
-                  as="h4"
-                  size="sm"
-                  color={theme.secondaryColor}
-                  size="md"
-                  mb="3"
-                >
-                  Description
-                </Heading>
-                <div dangerouslySetInnerHTML={{ __html: product?.content }} />
-              </Container>
-            </Box>
+            {product?.content && (
+              <Box pt={2} pb={2} bg="white" mt="3">
+                <Container maxW="container.lg">
+                  <Heading
+                    as="h4"
+                    size="sm"
+                    color={theme.secondaryColor}
+                    size="md"
+                    mb="3"
+                  >
+                    Description
+                  </Heading>
+                  <div dangerouslySetInnerHTML={{ __html: product?.content }} />
+                </Container>
+              </Box>
+            )}
 
             <Box pt={2} pb={2} bg="white" mt="3">
               <Container maxW="container.lg">
@@ -190,7 +202,9 @@ const ProductDetail = ({ data }) => {
                     </div>
                   </div>
                   <Link
-                    href={`/${product.shop?._id}/${textStringToUrl(product.shop?.shopname)}`}
+                    href={`/${product.shop?._id}/${textStringToUrl(
+                      product.shop?.shopname
+                    )}`}
                   >
                     <Button colorScheme="yellow" variant="outline" size="sm">
                       Visit Store
